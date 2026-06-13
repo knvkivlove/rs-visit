@@ -35,7 +35,7 @@
         }
         .btn-print:hover { background-color: #2a6fa8; }
 
-        /* Контейнер листа А4 (фиксированный масштаб) */
+        /* Контейнер листа А4 */
         .a4-page {
             width: 210mm;
             min-height: 297mm;
@@ -64,7 +64,7 @@
             margin-bottom: 22px;
         }
 
-        /* Двухколоночная структура дней (Вторник и Воскресенье) */
+        /* Двухколоночная структура дней */
         .days-container {
             display: table;
             width: 100%;
@@ -86,16 +86,25 @@
             margin-bottom: 12px;
             border-radius: 4px;
             overflow: hidden;
+            height: 100%;
         }
         .block-header {
             background-color: #e3edf7;
             color: #1e558c;
-            padding: 7px 10px;
-            font-size: 10pt;
+            padding: 8px 10px;
+            font-size: 11pt;
             font-weight: bold;
             border-bottom: 1.5px solid #a3c2e0;
-            text-transform: uppercase;
             letter-spacing: 0.3px;
+            line-height: 1.3;
+        }
+        .block-header span {
+            display: block;
+            font-size: 8.5pt;
+            font-weight: normal;
+            color: #555555;
+            text-transform: lowercase;
+            margin-top: 2px;
         }
         .block-body {
             padding: 10px 12px;
@@ -124,6 +133,26 @@
         .responsible-name {
             font-weight: bold;
             color: #1e558c;
+        }
+
+        /* Стилизация тем речей (Капслок, Синий, Крупнее) */
+        .speech-topic {
+            display: block;
+            padding-left: 12px;
+            font-weight: bold;
+            color: #1e558c;
+            text-transform: uppercase;
+            font-size: 10.5pt;
+            margin-top: 2px;
+            letter-spacing: 0.3px;
+        }
+
+        /* Увеличенные отступы для выравнивания высоты Воскресенья */
+        .weekend-spacer-medium {
+            margin-top: 16px !important;
+        }
+        .weekend-spacer-large {
+            margin-top: 22px !important;
         }
 
         /* Внутренние таблицы (Навыки служения) */
@@ -201,7 +230,7 @@
             <div class="day-column">
                 <div class="block-section">
                     <div class="block-header">
-                        🗓️ ВТОРНИК — ВСТРЕЧА В БУДНИЕ ДНИ
+                        🗓️ ВТОРНИК<span>встреча в будние дни</span>
                     </div>
                     <div class="block-body">
                         <div class="program-item"><strong>(Адрес – <span id="cfg_address_wd">...</span>)</strong></div>
@@ -219,7 +248,7 @@
                             <span class="prog-bullet">•</span> <span class="prog-title">Вступительные слова</span> <span class="prog-time">(<span id="wd_intro_time">...</span> мин.)</span>
                         </div>
 
-                        <div class="prog-title" style="margin-top: 12px; color: #1e558c; text-transform: uppercase; font-size: 9pt;">Сокровища из Слова Бога</div>
+                        <div class="prog-title" style="margin-top: 12px; color: #1e558c; text-transform: uppercase; font-size: 9pt;">Сокровища из Слового Бога</div>
                         <div class="program-item">
                             <span class="prog-bullet">•</span> <span class="prog-title">Речь</span> <span class="prog-time">(10  мин.):</span> 
                             <span class="responsible-name" id="wd_treasures_speaker">...</span>
@@ -280,7 +309,7 @@
                         <div class="program-item">
                             <span class="prog-bullet">•</span> <span class="prog-title">Служебная речь</span> <span class="prog-time">(30 мин.):</span> 
                             <span class="responsible-name" id="wd_rs_name">...</span><br>
-                            <span style="padding-left: 12px; font-style: italic;">Тема: <span id="wd_rs_topic">...</span></span>
+                            <span class="speech-topic" id="wd_rs_topic">...</span>
                         </div>
                         <div class="program-item">
                             <span class="prog-bullet">•</span> <span class="prog-title">Песня № <span id="wd_song_end">...</span> и молитва:</span> 
@@ -293,7 +322,7 @@
             <div class="day-column">
                 <div class="block-section">
                     <div class="block-header">
-                        🗓️ ВОСКРЕСЕНЬЕ — ВСТРЕЧА В ВЫХОДНЫЕ ДНИ
+                        🗓️ ВОСКРЕСЕНЬЕ<span>встреча в выходные дни</span>
                     </div>
                     <div class="block-body">
                         <div class="program-item"><strong>(Адрес – <span id="cfg_address_we">...</span>)</strong></div>
@@ -308,36 +337,36 @@
                             <span class="responsible-name" id="we_prayer_start">...</span>
                         </div>
                         
-                        <div class="program-item" style="margin-top: 15px;">
+                        <div class="program-item weekend-spacer-medium">
                             <span class="prog-bullet">•</span> <span class="prog-title">Публичная речь</span> <span class="prog-time">(30 мин):</span> 
                             <span class="responsible-name" id="we_public_speaker">...</span><br>
-                            <span style="padding-left: 12px; font-style: italic;">Тема: <span id="we_public_topic">...</span></span>
+                            <span class="speech-topic" id="we_public_topic">...</span>
                         </div>
 
-                        <div class="program-item" style="margin-top: 15px;">
+                        <div class="program-item weekend-spacer-medium">
                             <span class="prog-bullet">•</span> <span class="prog-title">Песня № <span id="we_song_middle">...</span></span>
                         </div>
 
-                        <div class="program-item" style="margin-top: 15px;">
+                        <div class="program-item weekend-spacer-large">
                             <span class="prog-bullet">•</span> <span class="prog-title">Изучение «Сторожевой Башни»</span> <span class="prog-time">(без зачитывания <span id="we_wt_time">...</span> мин)</span><br>
                             <span style="padding-left: 12px;"><span class="prog-title">Ведущий:</span> <span class="responsible-name" id="we_wt_conductor">...</span></span><br>
                             <span style="padding-left: 12px;"><span class="prog-title">Чтец:</span> <span class="responsible-name" id="we_wt_reader">...</span></span>
                         </div>
 
-                        <div class="program-item" style="margin-top: 20px;">
+                        <div class="program-item weekend-spacer-large">
                             <span class="prog-bullet">•</span> <span class="prog-title">Заключительная речь</span> <span class="prog-time">(30 мин):</span> 
                             <span class="responsible-name" id="we_rs_name">...</span><br>
-                            <span style="padding-left: 12px; font-style: italic;">Тема: <span id="we_rs_topic">...</span></span>
+                            <span class="speech-topic" id="we_rs_topic">...</span>
                         </div>
 
-                        <div class="program-item" style="margin-top: 15px;">
+                        <div class="program-item weekend-spacer-medium">
                             <span class="prog-bullet">•</span> <span class="prog-title">Песня № <span id="we_song_end">...</span> и молитва:</span> 
                             <span class="responsible-name" id="we_prayer_end">...</span>
                         </div>
 
-                        <div class="program-item" style="margin-top: 25px; padding: 8px; background-color: #f4f8fc; border-left: 3px solid #a3c2e0;" id="we_after_meeting_box">
-                            <span class="prog-title">После встречи собрания:</span><br>
-                            <span id="we_after_meeting">...</span>
+                        <div class="program-item weekend-spacer-large" style="padding: 8px; background-color: #f4f8fc; border-left: 3px solid #a3c2e0;" id="we_after_meeting_box">
+                            <span class="prog-title" style="color: #1e558c;">Встреча для проповеднического служения (ВПС):</span><br>
+                            <span id="we_after_meeting" style="font-weight: bold;">...</span>
                         </div>
                     </div>
                 </div>
@@ -350,10 +379,10 @@
             <table class="service-table" id="serviceTable">
                 <thead>
                     <tr>
-                        <th style="width: 15%;">День</th>
-                        <th style="width: 15%;">Время</th>
-                        <th style="width: 35%;">Встречи</th>
-                        <th style="width: 35%;">Место проведения / Адрес</th>
+                        <th style="width: 12%;">День</th>
+                        <th style="width: 12%;">Время</th>
+                        <th style="width: 21%;">Встречи</th>
+                        <th style="width: 55%;">Место проведения / Адрес</th>
                     </tr>
                 </thead>
                 <tbody id="service_table_body">
@@ -368,7 +397,6 @@
         const API_KEY = 'AIzaSyDwi1V8A5wvGwXCKtM_QmJ0eqTNG1hIoEg';
         const SPREADSHEET_ID = '11WbnmbvSTtxsaszbzXIgKeQT795n3Tlx7kwvGpSQU18';
 
-        // Базовый URL для запросов к Google Sheets API v4
         const baseUrl = `https://sheets.googleapis.com/v4/spreadsheets/${SPREADSHEET_ID}/values`;
 
         async function fetchSheetData(range) {
@@ -382,7 +410,6 @@
             }
         }
 
-        // Преобразование массива ключ-значение в удобный объект
         function convertToMap(rows) {
             const map = {};
             rows.forEach(row => {
@@ -397,7 +424,6 @@
             const settings = convertToMap(settingsRows);
             
             if (settings['ДатаНачала'] && settings['ДатаОкончания']) {
-                // Преобразование дат из формата YYYY-MM-DD в ДД.ММ.ГГГГ для отображения
                 const formatDate = (dStr) => dStr.split('-').reverse().join('.');
                 document.getElementById('cfg_date_start').innerText = formatDate(settings['ДатаНачала']);
                 document.getElementById('cfg_date_end').innerText = formatDate(settings['ДатаОкончания']);
@@ -430,9 +456,8 @@
             document.getElementById('wd_song_end').innerText = wd['ПесняКонец'] || '';
             document.getElementById('wd_prayer_end').innerText = wd['МолитваКонец'] || '';
 
-            // 3. Загрузка Навыков Служения (Задания 4-7)
+            // 3. Загрузка Навыков Служения
             const skillsRows = await fetchSheetData('Навыки!A:D');
-            // Пропускаем заголовок таблицы, парсим строки
             for(let i = 1; i < skillsRows.length; i++) {
                 const row = skillsRows[i];
                 if (!row[0]) continue;
@@ -447,14 +472,13 @@
                 if (nameEl && partnerEl && rowEl) {
                     nameEl.innerText = student;
                     partnerEl.innerText = partner;
-                    // Если задание пустое — полностью скрываем строку таблицы
                     if (student === '' && partner === '') {
                         rowEl.classList.add('hidden-element');
                     }
                 }
             }
 
-            // 4. Загрузка Христианской Жизни (Пункты 7-8)
+            // 4. Загрузка Христианской Жизни
             const lifeRows = await fetchSheetData('ХристианскаяЖизнь!A:D');
             for(let i = 1; i < lifeRows.length; i++) {
                 const row = lifeRows[i];
@@ -497,6 +521,7 @@
             document.getElementById('we_wt_conductor').innerText = we['ВедущийСБ'] || '';
             document.getElementById('we_wt_reader').innerText = we['ЧтецСБ'] || '';
             
+            document.getElementById('we_rs_name').innerText = we['ЗаключительнаяРечь'] || settings['РайонныйСтарейшина'] || '';
             document.getElementById('we_rs_topic').innerText = we['ТемаЗаключительнойРечи'] || '';
             document.getElementById('we_song_end').innerText = we['ПесняКонец'] || '';
             document.getElementById('we_prayer_end').innerText = we['МолитваКонец'] || '';
@@ -508,10 +533,10 @@
                 document.getElementById('we_after_meeting').innerText = afterMeetingText;
             }
 
-            // 6. Загрузка Расписания Служения (Полное и точное соответствие структуре)
+            // 6. Загрузка Расписания Служения
             const serviceRows = await fetchSheetData('Служение!A:D');
             const tbody = document.getElementById('service_table_body');
-            tbody.innerHTML = ''; // Очистка старых строк
+            tbody.innerHTML = '';
             
             for(let i = 1; i < serviceRows.length; i++) {
                 const row = serviceRows[i];
@@ -520,10 +545,8 @@
                 const desc = row[2] ? row[2].trim() : '';
                 const addr = row[3] ? row[3].trim() : '';
                 
-                // Если строка пустая в таблице — пропускаем ее отображение
                 if (day === '' && time === '' && desc === '') continue;
                 
-                // Форматируем время, чтобы убрать лишние секунды (10:00:00 -> 10:00)
                 const formattedTime = time.length > 5 ? time.substring(0, 5) : time;
 
                 const tr = document.createElement('tr');
@@ -537,7 +560,6 @@
             }
         }
 
-        // Запуск при загрузке документа
         window.onload = function() {
             initDashboard();
         };
