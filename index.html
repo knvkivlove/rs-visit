@@ -28,7 +28,7 @@
             color: white;
             border: none;
             padding: 8px 16px;
-            font-size: 10pt;
+            font-size: 11pt;
             cursor: pointer;
             border-radius: 4px;
             font-weight: bold;
@@ -49,7 +49,7 @@
         /* Заголовки */
         .header-title {
             text-align: center;
-            font-size: 14pt;
+            font-size: 15pt;
             font-weight: bold;
             color: #1e558c;
             text-transform: uppercase;
@@ -58,7 +58,7 @@
         }
         .header-subtitle {
             text-align: center;
-            font-size: 11pt;
+            font-size: 12pt;
             font-weight: bold;
             color: #4a76a8;
             margin-bottom: 22px;
@@ -66,33 +66,32 @@
 
         /* Двухколоночная структура дней */
         .days-container {
-            display: table;
+            display: flex;
             width: 100%;
-            table-layout: fixed;
+            gap: 24px;
             margin-bottom: 20px;
         }
         .day-column {
-            display: table-cell;
-            width: 50%;
-            vertical-align: top;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
         }
-        .day-column:first-child { padding-right: 12px; }
-        .day-column:last-child { padding-left: 12px; }
 
         /* Блоки программы */
         .block-section {
             border: 1.5px solid #a3c2e0;
             background-color: #ffffff;
-            margin-bottom: 12px;
             border-radius: 4px;
             overflow: hidden;
-            height: 100%;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1; /* Позволяет блокам выравниваться по высоте */
         }
         .block-header {
             background-color: #e3edf7;
             color: #1e558c;
             padding: 8px 10px;
-            font-size: 11pt;
+            font-size: 12pt;
             font-weight: bold;
             border-bottom: 1.5px solid #a3c2e0;
             letter-spacing: 0.3px;
@@ -100,21 +99,28 @@
         }
         .block-header span {
             display: block;
-            font-size: 8.5pt;
+            font-size: 9.5pt;
             font-weight: normal;
             color: #555555;
             text-transform: lowercase;
             margin-top: 2px;
         }
+        
+        /* Тело блока с динамическим распределением частей */
         .block-body {
-            padding: 10px 12px;
-            font-size: 9.5pt;
+            padding: 12px 12px;
+            font-size: 10.5pt; /* Общий текст увеличен на 1 пункт */
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            flex-grow: 1;
+            justify-content: space-between; /* Равномерно распределяет части программы */
         }
 
         /* Элементы расписания внутри блоков */
         .program-item {
-            margin-bottom: 8px;
-            line-height: 1.35;
+            margin-bottom: 6px;
+            line-height: 1.4;
         }
         .program-item:last-child { margin-bottom: 0; }
         
@@ -129,27 +135,37 @@
         .prog-time {
             color: #555555;
             font-style: italic;
+            font-size: 10pt;
         }
+        
+        /* ФИО увеличены на дополнительный пункт */
         .responsible-name {
             font-weight: bold;
             color: #1e558c;
+            font-size: 11.5pt; 
         }
 
-        /* Стилизация тем речей (Капслок, Синий, Крупнее) */
+        /* Стилизация тем речей (Капслок, Синий, Еще крупнее) */
         .speech-topic {
             display: block;
             padding-left: 12px;
             font-weight: bold;
             color: #1e558c;
             text-transform: uppercase;
-            font-size: 10.5pt;
-            margin-top: 2px;
+            font-size: 12pt; /* Названия речей сделаны еще крупнее */
+            margin-top: 4px;
             letter-spacing: 0.3px;
+            line-height: 1.3;
         }
 
-        /* Точечные отступы по красным линиям (эквивалент 2-3 ентеров) */
-        .spacer-by-line {
-            margin-top: 24px !important;
+        /* Подзаголовки разделов в левой колонке */
+        .section-subheading {
+            font-weight: bold; 
+            color: #1e558c; 
+            text-transform: uppercase; 
+            font-size: 10pt;
+            margin-top: 10px;
+            margin-bottom: 4px;
         }
 
         /* Внутренние таблицы (Навыки служения) */
@@ -157,11 +173,12 @@
             width: 100%;
             border-collapse: collapse;
             margin-top: 5px;
+            margin-bottom: 5px;
         }
         .inner-table td {
             padding: 4px 4px;
             border: 1px solid #d0e1f0;
-            font-size: 9pt;
+            font-size: 10pt;
         }
         
         /* Скрытие пустых строк */
@@ -174,7 +191,7 @@
             margin-top: 15px;
         }
         .service-title {
-            font-size: 11pt;
+            font-size: 12pt;
             font-weight: bold;
             color: #1e558c;
             text-transform: uppercase;
@@ -189,15 +206,15 @@
             background-color: #e3edf7;
             color: #1e558c;
             border: 1.5px solid #a3c2e0;
-            padding: 6px;
-            font-size: 9.5pt;
+            padding: 8px;
+            font-size: 10.5pt;
             text-transform: uppercase;
             text-align: left;
         }
         .service-table td {
             border: 1.5px solid #a3c2e0;
-            padding: 6px 8px;
-            font-size: 9.5pt;
+            padding: 8px 10px;
+            font-size: 10.5pt;
             vertical-align: middle;
         }
 
@@ -229,88 +246,98 @@
                     <div class="block-header">
                         🗓️ ВТОРНИК<span>встреча в будние дни</span>
                     </div>
-                    <div class="block-body">
-                        <div class="program-item"><strong>(Адрес – <span id="cfg_address_wd">...</span>)</strong></div>
-                        <div class="program-item">⏱️ Время начала: <strong><span id="cfg_time_weekday">...</span></strong></div>
+                    <div class="block-body" style="justify-content: flex-start; gap: 8px;">
+                        <div>
+                            <div class="program-item"><strong>(Адрес – <span id="cfg_address_wd">...</span>)</strong></div>
+                            <div class="program-item">⏱️ Время начала: <strong><span id="cfg_time_weekday">...</span></strong></div>
+                        </div>
                         
-                        <div class="program-item" style="margin-top: 10px;">
-                            <span class="prog-bullet">•</span> <span class="prog-title">Председатель:</span> 
-                            <span class="responsible-name" id="wd_chairman">...</span>
-                        </div>
-                        <div class="program-item">
-                            <span class="prog-bullet">•</span> <span class="prog-title">Песня № <span id="wd_song_start">...</span> и молитва:</span> 
-                            <span class="responsible-name" id="wd_prayer_start">...</span>
-                        </div>
-                        <div class="program-item">
-                            <span class="prog-bullet">•</span> <span class="prog-title">Вступительные слова</span> <span class="prog-time">(<span id="wd_intro_time">...</span> мин.)</span>
-                        </div>
-
-                        <div class="prog-title" style="margin-top: 12px; color: #1e558c; text-transform: uppercase; font-size: 9pt;">Сокровища из Слова Бога</div>
-                        <div class="program-item">
-                            <span class="prog-bullet">•</span> <span class="prog-title">Речь</span> <span class="prog-time">(10  мин.):</span> 
-                            <span class="responsible-name" id="wd_treasures_speaker">...</span>
-                        </div>
-                        <div class="program-item">
-                            <span class="prog-bullet">•</span> <span class="prog-title">Духовные жемчужины</span> <span class="prog-time">(10  мин.):</span> 
-                            <span class="responsible-name" id="wd_pearls_speaker">...</span>
-                        </div>
-                        <div class="program-item">
-                            <span class="prog-bullet">•</span> <span class="prog-title">Чтение Библии</span> <span class="prog-time">(4  мин.):</span> 
-                            <span class="responsible-name" id="wd_reading_speaker">...</span>
+                        <div>
+                            <div class="program-item">
+                                <span class="prog-bullet">•</span> <span class="prog-title">Председатель:</span> 
+                                <span class="responsible-name" id="wd_chairman">...</span>
+                            </div>
+                            <div class="program-item">
+                                <span class="prog-bullet">•</span> <span class="prog-title">Песня № <span id="wd_song_start">...</span> и молитва:</span> 
+                                <span class="responsible-name" id="wd_prayer_start">...</span>
+                            </div>
+                            <div class="program-item">
+                                <span class="prog-bullet">•</span> <span class="prog-title">Вступительные слова</span> <span class="prog-time">(<span id="wd_intro_time">...</span> мин.)</span>
+                            </div>
                         </div>
 
-                        <div class="prog-title" style="margin-top: 12px; color: #1e558c; text-transform: uppercase; font-size: 9pt;">Оттачиваем навыки служения</div>
-                        <table class="inner-table">
-                            <tr id="skill_row_4">
-                                <td style="font-weight: bold; width: 40px;">№ 4:</td>
-                                <td><span class="responsible-name" id="skill_name_4">...</span></td>
-                                <td style="font-weight: bold; width: 65px;">Партнер:</td>
-                                <td><span class="responsible-name" id="skill_partner_4">...</span></td>
-                            </tr>
-                            <tr id="skill_row_5">
-                                <td style="font-weight: bold;">№ 5:</td>
-                                <td><span class="responsible-name" id="skill_name_5">...</span></td>
-                                <td style="font-weight: bold;">Партнер:</td>
-                                <td><span class="responsible-name" id="skill_partner_5">...</span></td>
-                            </tr>
-                            <tr id="skill_row_6">
-                                <td style="font-weight: bold;">№ 6:</td>
-                                <td><span class="responsible-name" id="skill_name_6">...</span></td>
-                                <td style="font-weight: bold;">Партнер:</td>
-                                <td><span class="responsible-name" id="skill_partner_6">...</span></td>
-                            </tr>
-                            <tr id="skill_row_7">
-                                <td style="font-weight: bold;">№ 7:</td>
-                                <td><span class="responsible-name" id="skill_name_7">...</span></td>
-                                <td style="font-weight: bold;">Партнер:</td>
-                                <td><span class="responsible-name" id="skill_partner_7">...</span></td>
-                            </tr>
-                        </table>
+                        <div>
+                            <div class="section-subheading">Сокровища из Слова Бога</div>
+                            <div class="program-item">
+                                <span class="prog-bullet">•</span> <span class="prog-title">Речь</span> <span class="prog-time">(10  мин.):</span> 
+                                <span class="responsible-name" id="wd_treasures_speaker">...</span>
+                            </div>
+                            <div class="program-item">
+                                <span class="prog-bullet">•</span> <span class="prog-title">Духовные жемчужины</span> <span class="prog-time">(10  мин.):</span> 
+                                <span class="responsible-name" id="wd_pearls_speaker">...</span>
+                            </div>
+                            <div class="program-item">
+                                <span class="prog-bullet">•</span> <span class="prog-title">Чтение Библии</span> <span class="prog-time">(4  мин.):</span> 
+                                <span class="responsible-name" id="wd_reading_speaker">...</span>
+                            </div>
+                        </div>
 
-                        <div class="prog-title" style="margin-top: 12px; color: #1e558c; text-transform: uppercase; font-size: 9pt;">Христианская жизнь</div>
-                        <div class="program-item">
-                            <span class="prog-bullet">•</span> <span class="prog-title">Песня № <span id="wd_life_song">...</span></span>
+                        <div>
+                            <div class="section-subheading">Оттачиваем навыки служения</div>
+                            <table class="inner-table">
+                                <tr id="skill_row_4">
+                                    <td style="font-weight: bold; width: 40px;">№ 4:</td>
+                                    <td><span class="responsible-name" id="skill_name_4">...</span></td>
+                                    <td style="font-weight: bold; width: 65px;">Партнер:</td>
+                                    <td><span class="responsible-name" id="skill_partner_4">...</span></td>
+                                </tr>
+                                <tr id="skill_row_5">
+                                    <td style="font-weight: bold;">№ 5:</td>
+                                    <td><span class="responsible-name" id="skill_name_5">...</span></td>
+                                    <td style="font-weight: bold;">Партнер:</td>
+                                    <td><span class="responsible-name" id="skill_partner_5">...</span></td>
+                                </tr>
+                                <tr id="skill_row_6">
+                                    <td style="font-weight: bold;">№ 6:</td>
+                                    <td><span class="responsible-name" id="skill_name_6">...</span></td>
+                                    <td style="font-weight: bold;">Партнер:</td>
+                                    <td><span class="responsible-name" id="skill_partner_6">...</span></td>
+                                </tr>
+                                <tr id="skill_row_7">
+                                    <td style="font-weight: bold;">№ 7:</td>
+                                    <td><span class="responsible-name" id="skill_name_7">...</span></td>
+                                    <td style="font-weight: bold;">Партнер:</td>
+                                    <td><span class="responsible-name" id="skill_partner_7">...</span></td>
+                                </tr>
+                            </table>
                         </div>
-                        <div class="program-item" id="life_row_7">
-                            <span class="prog-bullet">•</span> <span class="prog-title" id="life_title_7">Пункт № 7</span> <span class="prog-time">(<span id="life_time_7">...</span> мин.):</span> 
-                            <span class="responsible-name" id="life_speaker_7">...</span>
-                        </div>
-                        <div class="program-item" id="life_row_8">
-                            <span class="prog-bullet">•</span> <span class="prog-title" id="life_title_8">Пункт № 8</span> <span class="prog-time">(<span id="life_time_8">...</span> мин.):</span> 
-                            <span class="responsible-name" id="life_speaker_8">...</span>
-                        </div>
-                        <div class="program-item" style="margin-top: 5px;">
-                            <span class="prog-bullet">•</span> <span class="prog-title">Заключительные слова</span> <span class="prog-time">(<span id="wd_close_words_time">...</span> мин.)</span>:
-                            <span class="responsible-name" id="wd_chairman_close">...</span>
-                        </div>
-                        <div class="program-item">
-                            <span class="prog-bullet">•</span> <span class="prog-title">Служебная речь</span> <span class="prog-time">(30 мин.):</span> 
-                            <span class="responsible-name" id="wd_rs_name">...</span><br>
-                            <span class="speech-topic" id="wd_rs_topic">...</span>
-                        </div>
-                        <div class="program-item">
-                            <span class="prog-bullet">•</span> <span class="prog-title">Песня № <span id="wd_song_end">...</span> и молитва:</span> 
-                            <span class="responsible-name" id="wd_prayer_end">...</span>
+
+                        <div>
+                            <div class="section-subheading">Христианская жизнь</div>
+                            <div class="program-item">
+                                <span class="prog-bullet">•</span> <span class="prog-title">Песня № <span id="wd_life_song">...</span></span>
+                            </div>
+                            <div class="program-item" id="life_row_7">
+                                <span class="prog-bullet">•</span> <span class="prog-title" id="life_title_7">Пункт № 7</span> <span class="prog-time">(<span id="life_time_7">...</span> мин.):</span> 
+                                <span class="responsible-name" id="life_speaker_7">...</span>
+                            </div>
+                            <div class="program-item" id="life_row_8">
+                                <span class="prog-bullet">•</span> <span class="prog-title" id="life_title_8">Пункт № 8</span> <span class="prog-time">(<span id="life_time_8">...</span> мин.):</span> 
+                                <span class="responsible-name" id="life_speaker_8">...</span>
+                            </div>
+                            <div class="program-item" style="margin-top: 2px;">
+                                <span class="prog-bullet">•</span> <span class="prog-title">Заключительные слова</span> <span class="prog-time">(<span id="wd_close_words_time">...</span> мин.)</span>:
+                                <span class="responsible-name" id="wd_chairman_close">...</span>
+                            </div>
+                            <div class="program-item">
+                                <span class="prog-bullet">•</span> <span class="prog-title">Служебная речь</span> <span class="prog-time">(30 мин.):</span> 
+                                <span class="responsible-name" id="wd_rs_name">...</span><br>
+                                <span class="speech-topic" id="wd_rs_topic">...</span>
+                            </div>
+                            <div class="program-item">
+                                <span class="prog-bullet">•</span> <span class="prog-title">Песня № <span id="wd_song_end">...</span> и молитва:</span> 
+                                <span class="responsible-name" id="wd_prayer_end">...</span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -322,46 +349,56 @@
                         🗓️ ВОСКРЕСЕНЬЕ<span>встреча в выходные дни</span>
                     </div>
                     <div class="block-body">
-                        <div class="program-item"><strong>(Адрес – <span id="cfg_address_we">...</span>)</strong></div>
-                        <div class="program-item">⏱️ Время начала: <strong><span id="cfg_time_weekend">...</span></strong></div>
                         
-                        <div class="program-item" style="margin-top: 10px;">
-                            <span class="prog-bullet">•</span> <span class="prog-title">Председатель:</span> 
-                            <span class="responsible-name" id="we_chairman">...</span>
-                        </div>
-                        <div class="program-item spacer-by-line">
-                            <span class="prog-bullet">•</span> <span class="prog-title">Песня № <span id="we_song_start">...</span> и молитва:</span> 
-                            <span class="responsible-name" id="we_prayer_start">...</span>
+                        <div>
+                            <div class="program-item"><strong>(Адрес – <span id="cfg_address_we">...</span>)</strong></div>
+                            <div class="program-item">⏱️ Время начала: <strong><span id="cfg_time_weekend">...</span></strong></div>
+                            
+                            <div class="program-item" style="margin-top: 6px;">
+                                <span class="prog-bullet">•</span> <span class="prog-title">Председатель:</span> 
+                                <span class="responsible-name" id="we_chairman">...</span>
+                            </div>
+                            <div class="program-item">
+                                <span class="prog-bullet">•</span> <span class="prog-title">Песня № <span id="we_song_start">...</span> и молитва:</span> 
+                                <span class="responsible-name" id="we_prayer_start">...</span>
+                            </div>
                         </div>
                         
-                        <div class="program-item" style="margin-top: 15px;">
-                            <span class="prog-bullet">•</span> <span class="prog-title">Публичная речь</span> <span class="prog-time">(30 мин):</span> 
-                            <span class="responsible-name" id="we_public_speaker">...</span><br>
-                            <span class="speech-topic" id="we_public_topic">...</span>
+                        <div>
+                            <div class="program-item">
+                                <span class="prog-bullet">•</span> <span class="prog-title">Публичная речь</span> <span class="prog-time">(30 мин):</span> 
+                                <span class="responsible-name" id="we_public_speaker">...</span><br>
+                                <span class="speech-topic" id="we_public_topic">...</span>
+                            </div>
                         </div>
 
-                        <div class="program-item spacer-by-line">
-                            <span class="prog-bullet">•</span> <span class="prog-title">Песня № <span id="we_song_middle">...</span></span>
+                        <div>
+                            <div class="program-item">
+                                <span class="prog-bullet">•</span> <span class="prog-title">Песня № <span id="we_song_middle">...</span></span>
+                            </div>
+
+                            <div class="program-item" style="margin-top: 4px;">
+                                <span class="prog-bullet">•</span> <span class="prog-title">Изучение «Сторожевой Башни»</span><br>
+                                <span class="prog-time" style="padding-left: 12px; display: block; margin-bottom: 2px;">(без зачитывания <span id="we_wt_time">...</span> мин)</span>
+                                <span style="padding-left: 12px;"><span class="prog-title">Ведущий:</span> <span class="responsible-name" id="we_wt_conductor">...</span></span><br>
+                                <span style="padding-left: 12px;"><span class="prog-title">Чтец:</span> <span class="responsible-name" id="we_wt_reader">...</span></span>
+                            </div>
                         </div>
 
-                        <div class="program-item" style="margin-top: 15px;">
-                            <span class="prog-bullet">•</span> <span class="prog-title">Изучение «Сторожевой Башни»</span> <span class="prog-time">(без зачитывания <span id="we_wt_time">...</span> мин)</span><br>
-                            <span style="padding-left: 12px;"><span class="prog-title">Ведущий:</span> <span class="responsible-name" id="we_wt_conductor">...</span></span><br>
-                            <span style="padding-left: 12px;"><span class="prog-title">Чтец:</span> <span class="responsible-name" id="we_wt_reader">...</span></span>
+                        <div>
+                            <div class="program-item">
+                                <span class="prog-bullet">•</span> <span class="prog-title">Заключительная речь</span> <span class="prog-time">(30 мин):</span> 
+                                <span class="responsible-name" id="we_rs_name">...</span><br>
+                                <span class="speech-topic" id="we_rs_topic">...</span>
+                            </div>
+
+                            <div class="program-item" style="margin-top: 4px;">
+                                <span class="prog-bullet">•</span> <span class="prog-title">Песня № <span id="we_song_end">...</span> и молитва:</span> 
+                                <span class="responsible-name" id="we_prayer_end">...</span>
+                            </div>
                         </div>
 
-                        <div class="program-item spacer-by-line">
-                            <span class="prog-bullet">•</span> <span class="prog-title">Заключительная речь</span> <span class="prog-time">(30 мин):</span> 
-                            <span class="responsible-name" id="we_rs_name">...</span><br>
-                            <span class="speech-topic" id="we_rs_topic">...</span>
-                        </div>
-
-                        <div class="program-item" style="margin-top: 15px;">
-                            <span class="prog-bullet">•</span> <span class="prog-title">Песня № <span id="we_song_end">...</span> и молитва:</span> 
-                            <span class="responsible-name" id="we_prayer_end">...</span>
-                        </div>
-
-                        <div class="program-item" style="margin-top: 24px; padding: 8px; background-color: #f4f8fc; border-left: 3px solid #a3c2e0;" id="we_after_meeting_box">
+                        <div class="program-item" style="padding: 8px; background-color: #f4f8fc; border-left: 3px solid #a3c2e0;" id="we_after_meeting_box">
                             <span class="prog-title" style="color: #1e558c;">Встреча для проповеднического служения (ВПС):</span><br>
                             <span id="we_after_meeting" style="font-weight: bold;">...</span>
                         </div>
@@ -441,7 +478,7 @@
             document.getElementById('wd_intro_time').innerText = wd['ВступительныеСловаВремя'] || '1';
             
             document.getElementById('wd_treasures_speaker').innerText = wd['РечьСокровища'] || '';
-            document.getElementById('wd_pearls_speaker').innerText = wd['Духовные жемчужины'] || '';
+            document.getElementById('wd_pearls_speaker').innerText = wd['ДуховныеЖемчужины'] || ''; // Исправили ключ чтения
             document.getElementById('wd_reading_speaker').innerText = wd['ЧтениеБиблии'] || '';
             
             document.getElementById('wd_life_song').innerText = wd['ПесняХристианскаяЖизнь'] || '';
@@ -518,8 +555,16 @@
             document.getElementById('we_wt_conductor').innerText = we['ВедущийСБ'] || '';
             document.getElementById('we_wt_reader').innerText = we['ЧтецСБ'] || '';
             
-            document.getElementById('we_rs_name').innerText = we['ЗаключительнаяРечь'] || settings['РайонныйСтарейшина'] || '';
-            document.getElementById('we_rs_topic').innerText = we['ТемаЗаключительнойРечи'] || '';
+            // Заполнение полей Районного Старейшины в Воскресенье
+            const rsWeekendName = we['ЗаключительнаяРечь'] || settings['РайонныйСтарейшина'] || '';
+            const rsWeekendTopic = we['ТемаЗаключительнойРечи'] || '';
+            
+            const weRsNameElements = document.querySelectorAll('[id="we_rs_name"]');
+            weRsNameElements.forEach(el => el.innerText = rsWeekendName);
+            
+            const weRsTopicElements = document.querySelectorAll('[id="we_rs_topic"]');
+            weRsTopicElements.forEach(el => el.innerText = rsWeekendTopic);
+            
             document.getElementById('we_song_end').innerText = we['ПесняКонец'] || '';
             document.getElementById('we_prayer_end').innerText = we['МолитваКонец'] || '';
             
@@ -530,7 +575,7 @@
                 document.getElementById('we_after_meeting').innerText = afterMeetingText;
             }
 
-            // 6. Загрузка Расписания Служения (Скрываем пустые строки + Объединяем одинаковые дни)
+            // 6. Загрузка Расписания Служения
             const serviceRows = await fetchSheetData('Служение!A:D');
             const tbody = document.getElementById('service_table_body');
             tbody.innerHTML = '';
@@ -544,20 +589,17 @@
                 const desc = row[2] ? row[2].trim() : '';
                 const addr = row[3] ? row[3].trim() : '';
                 
-                // Полностью пропускаем пустые незаполненные строчки
                 if (desc === '' && addr === '') continue;
                 
                 const formattedTime = time.length > 5 ? time.substring(0, 5) : time;
                 validRows.push({ day, time: formattedTime, desc, addr });
             }
 
-            // Алгоритм группировки и вывода строк таблицы служения с объединением дней
             let i = 0;
             while (i < validRows.length) {
                 let currentDay = validRows[i].day;
                 let count = 1;
                 
-                // Считаем сколько раз подряд повторяется один и тот же день
                 while (i + count < validRows.length && validRows[i + count].day === currentDay) {
                     count++;
                 }
@@ -566,7 +608,6 @@
                     const tr = document.createElement('tr');
                     let dayTdHtml = '';
                     
-                    // Для первой строчки группы создаем ячейку с rowspan, остальные строки дня её не создают
                     if (j === 0) {
                         dayTdHtml = `<td rowspan="${count}" style="text-align: center; font-weight: bold; background-color: #fafafa;"><strong>${currentDay}</strong></td>`;
                     }
