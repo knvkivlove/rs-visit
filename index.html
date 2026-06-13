@@ -85,7 +85,7 @@
             overflow: hidden;
             display: flex;
             flex-direction: column;
-            flex-grow: 1; /* Позволяет блокам выравниваться по высоте */
+            flex-grow: 1;
         }
         .block-header {
             background-color: #e3edf7;
@@ -106,15 +106,15 @@
             margin-top: 2px;
         }
         
-        /* Тело блока с динамическим распределением частей */
+        /* Тело блока с распределением частей */
         .block-body {
             padding: 12px 12px;
-            font-size: 10.5pt; /* Общий текст увеличен на 1 пункт */
+            font-size: 10.5pt;
             display: flex;
             flex-direction: column;
             height: 100%;
             flex-grow: 1;
-            justify-content: space-between; /* Равномерно распределяет части программы */
+            justify-content: space-between;
         }
 
         /* Элементы расписания внутри блоков */
@@ -138,22 +138,23 @@
             font-size: 10pt;
         }
         
-        /* ФИО увеличены на дополнительный пункт */
+        /* ФИО братьев и сестер */
         .responsible-name {
             font-weight: bold;
             color: #1e558c;
             font-size: 11.5pt; 
         }
 
-        /* Стилизация тем речей (Капслок, Синий, Еще крупнее) */
+        /* ТЕМЫ РЕЧЕЙ ПО ЦЕНТРУ (Капслок, Синий, Крупный) */
         .speech-topic {
             display: block;
-            padding-left: 12px;
+            text-align: center; /* Центрирование названий речей */
             font-weight: bold;
             color: #1e558c;
             text-transform: uppercase;
-            font-size: 12pt; /* Названия речей сделаны еще крупнее */
-            margin-top: 4px;
+            font-size: 12pt;
+            margin-top: 6px;
+            margin-bottom: 4px;
             letter-spacing: 0.3px;
             line-height: 1.3;
         }
@@ -267,7 +268,7 @@
                         </div>
 
                         <div>
-                            <div class="section-subheading">Сокровища из Слова Бога</div>
+                            <div class="section-subheading">Сокровища из Слово Бога</div>
                             <div class="program-item">
                                 <span class="prog-bullet">•</span> <span class="prog-title">Речь</span> <span class="prog-time">(10  мин.):</span> 
                                 <span class="responsible-name" id="wd_treasures_speaker">...</span>
@@ -286,25 +287,25 @@
                             <div class="section-subheading">Оттачиваем навыки служения</div>
                             <table class="inner-table">
                                 <tr id="skill_row_4">
-                                    <td style="font-weight: bold; width: 40px;">4:</td>
+                                    <td style="font-weight: bold; width: 30px;" id="skill_num_lbl_4">4</td>
                                     <td><span class="responsible-name" id="skill_name_4">...</span></td>
                                     <td style="font-weight: bold; width: 65px;">Партнер:</td>
                                     <td><span class="responsible-name" id="skill_partner_4">...</span></td>
                                 </tr>
                                 <tr id="skill_row_5">
-                                    <td style="font-weight: bold;">5:</td>
+                                    <td style="font-weight: bold;" id="skill_num_lbl_5">5</td>
                                     <td><span class="responsible-name" id="skill_name_5">...</span></td>
                                     <td style="font-weight: bold;">Партнер:</td>
                                     <td><span class="responsible-name" id="skill_partner_5">...</span></td>
                                 </tr>
                                 <tr id="skill_row_6">
-                                    <td style="font-weight: bold;">6:</td>
+                                    <td style="font-weight: bold;" id="skill_num_lbl_6">6</td>
                                     <td><span class="responsible-name" id="skill_name_6">...</span></td>
                                     <td style="font-weight: bold;">Партнер:</td>
                                     <td><span class="responsible-name" id="skill_partner_6">...</span></td>
                                 </tr>
                                 <tr id="skill_row_7">
-                                    <td style="font-weight: bold;">7:</td>
+                                    <td style="font-weight: bold;" id="skill_num_lbl_7">7</td>
                                     <td><span class="responsible-name" id="skill_name_7">...</span></td>
                                     <td style="font-weight: bold;">Партнер:</td>
                                     <td><span class="responsible-name" id="skill_partner_7">...</span></td>
@@ -317,13 +318,13 @@
                             <div class="program-item">
                                 <span class="prog-bullet">•</span> <span class="prog-title">Песня № <span id="wd_life_song">...</span></span>
                             </div>
-                            <div class="program-item" id="life_row_7">
-                                <span class="prog-bullet">•</span> <span class="prog-title" id="life_title_7">Пункт № 7</span> <span class="prog-time">(<span id="life_time_7">...</span> мин.):</span> 
-                                <span class="responsible-name" id="life_speaker_7">...</span>
+                            <div class="program-item" id="life_row_1">
+                                <span class="prog-bullet">•</span> <span class="prog-title" id="life_title_1">Пункт</span> <span class="prog-time">(<span id="life_time_1">...</span> мин.):</span> 
+                                <span class="responsible-name" id="life_speaker_1">...</span>
                             </div>
-                            <div class="program-item" id="life_row_8">
-                                <span class="prog-bullet">•</span> <span class="prog-title" id="life_title_8">Пункт № 8</span> <span class="prog-time">(<span id="life_time_8">...</span> мин.):</span> 
-                                <span class="responsible-name" id="life_speaker_8">...</span>
+                            <div class="program-item" id="life_row_2">
+                                <span class="prog-bullet">•</span> <span class="prog-title" id="life_title_2">Пункт</span> <span class="prog-time">(<span id="life_time_2">...</span> мин.):</span> 
+                                <span class="responsible-name" id="life_speaker_2">...</span>
                             </div>
                             <div class="program-item" style="margin-top: 2px;">
                                 <span class="prog-bullet">•</span> <span class="prog-title">Заключительные слова</span> <span class="prog-time">(<span id="wd_close_words_time">...</span> мин.)</span>:
@@ -399,7 +400,7 @@
                         </div>
 
                         <div class="program-item" style="padding: 8px; background-color: #f4f8fc; border-left: 3px solid #a3c2e0;" id="we_after_meeting_box">
-                            <span class="prog-title" style="color: #1e558c;">Встреча для проповеднического служения:</span><br>
+                            <span class="prog-title" style="color: #1e558c;">Встреча для проповеднического служения (ВПС):</span><br>
                             <span id="we_after_meeting" style="font-weight: bold;">...</span>
                         </div>
                     </div>
@@ -478,7 +479,7 @@
             document.getElementById('wd_intro_time').innerText = wd['ВступительныеСловаВремя'] || '1';
             
             document.getElementById('wd_treasures_speaker').innerText = wd['РечьСокровища'] || '';
-            document.getElementById('wd_pearls_speaker').innerText = wd['ДуховныеЖемчужины'] || ''; // Исправили ключ чтения
+            document.getElementById('wd_pearls_speaker').innerText = wd['ДуховныеЖемчужины'] || '';
             document.getElementById('wd_reading_speaker').innerText = wd['ЧтениеБиблии'] || '';
             
             document.getElementById('wd_life_song').innerText = wd['ПесняХристианскаяЖизнь'] || '';
@@ -490,8 +491,10 @@
             document.getElementById('wd_song_end').innerText = wd['ПесняКонец'] || '';
             document.getElementById('wd_prayer_end').innerText = wd['МолитваКонец'] || '';
 
-            // 3. Загрузка Навыков Служения
+            // 3. Загрузка Навыков Служения (Подсчет реального количества заполненных заданий)
             const skillsRows = await fetchSheetData('Навыки!A:D');
+            let activeSkillsCount = 0; // Счётчик заполненных заданий
+            
             for(let i = 1; i < skillsRows.length; i++) {
                 const row = skillsRows[i];
                 if (!row[0]) continue;
@@ -502,40 +505,53 @@
                 const nameEl = document.getElementById(`skill_name_${num}`);
                 const partnerEl = document.getElementById(`skill_partner_${num}`);
                 const rowEl = document.getElementById(`skill_row_${num}`);
+                const lblEl = document.getElementById(`skill_num_lbl_${num}`);
                 
                 if (nameEl && partnerEl && rowEl) {
                     nameEl.innerText = student;
                     partnerEl.innerText = partner;
+                    if (lblEl) lblEl.innerText = num; // Чистый вывод цифры без знака №
+                    
                     if (student === '' && partner === '') {
                         rowEl.classList.add('hidden-element');
+                    } else {
+                        activeSkillsCount++; // Увеличиваем, если задание заполнено
                     }
                 }
             }
 
-            // 4. Загрузка Христианской Жизни
+            // Вычисляем базовый номер для начала Христианской жизни (4 начальных + количество заданий)
+            let currentLifeNumber = 4 + activeSkillsCount;
+
+            // 4. Загрузка Христианской Жизни с автоматической сквозной нумерацией
             const lifeRows = await fetchSheetData('ХристианскаяЖизнь!A:D');
+            let itemIndex = 1;
+            
             for(let i = 1; i < lifeRows.length; i++) {
                 const row = lifeRows[i];
                 if (!row[0]) continue;
-                const num = row[0].trim();
                 const title = row[1] ? row[1].trim() : '';
                 const time = row[2] ? row[2].trim() : '';
                 const speaker = row[3] ? row[3].trim() : '';
                 
-                const titleEl = document.getElementById(`life_title_${num}`);
-                const timeEl = document.getElementById(`life_time_${num}`);
-                const speakerEl = document.getElementById(`life_speaker_${num}`);
-                const rowEl = document.getElementById(`life_row_${num}`);
+                const titleEl = document.getElementById(`life_title_${itemIndex}`);
+                const timeEl = document.getElementById(`life_time_${itemIndex}`);
+                const speakerEl = document.getElementById(`life_speaker_${itemIndex}`);
+                const rowEl = document.getElementById(`life_row_${itemIndex}`);
                 
-                if (titleEl && rowEl) {
+                if (rowEl) {
                     if (title === '') {
                         rowEl.classList.add('hidden-element');
                     } else {
-                        titleEl.innerText = `Пункт № ${num} (${title})`;
+                        // Пишем только слово Пункт и автоматически вычисленный номер
+                        if (titleEl) titleEl.innerText = `Пункт № ${currentLifeNumber}`;
                         if (timeEl) timeEl.innerText = time;
                         if (speakerEl) speakerEl.innerText = speaker;
+                        
+                        currentLifeNumber++; // Переходим к следующему номеру пункта
                     }
                 }
+                itemIndex++;
             }
 
             // 5. Загрузка Выходного Дня
@@ -555,7 +571,6 @@
             document.getElementById('we_wt_conductor').innerText = we['ВедущийСБ'] || '';
             document.getElementById('we_wt_reader').innerText = we['ЧтецСБ'] || '';
             
-            // Заполнение полей Районного Старейшины в Воскресенье
             const rsWeekendName = we['ЗаключительнаяРечь'] || settings['РайонныйСтарейшина'] || '';
             const rsWeekendTopic = we['ТемаЗаключительнойРечи'] || '';
             
