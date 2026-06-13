@@ -147,12 +147,9 @@
             letter-spacing: 0.3px;
         }
 
-        /* Увеличенные отступы для выравнивания высоты Воскресенья */
-        .weekend-spacer-medium {
-            margin-top: 16px !important;
-        }
-        .weekend-spacer-large {
-            margin-top: 22px !important;
+        /* Точечные отступы по красным линиям (эквивалент 2-3 ентеров) */
+        .spacer-by-line {
+            margin-top: 24px !important;
         }
 
         /* Внутренние таблицы (Навыки служения) */
@@ -162,7 +159,7 @@
             margin-top: 5px;
         }
         .inner-table td {
-            padding: 4px 6px;
+            padding: 4px 4px;
             border: 1px solid #d0e1f0;
             font-size: 9pt;
         }
@@ -265,25 +262,25 @@
                         <div class="prog-title" style="margin-top: 12px; color: #1e558c; text-transform: uppercase; font-size: 9pt;">Оттачиваем навыки служения</div>
                         <table class="inner-table">
                             <tr id="skill_row_4">
-                                <td style="font-weight: bold; width: 90px;">Задание № 4:</td>
+                                <td style="font-weight: bold; width: 40px;">№ 4:</td>
                                 <td><span class="responsible-name" id="skill_name_4">...</span></td>
                                 <td style="font-weight: bold; width: 65px;">Партнер:</td>
                                 <td><span class="responsible-name" id="skill_partner_4">...</span></td>
                             </tr>
                             <tr id="skill_row_5">
-                                <td style="font-weight: bold;">Задание № 5:</td>
+                                <td style="font-weight: bold;">№ 5:</td>
                                 <td><span class="responsible-name" id="skill_name_5">...</span></td>
                                 <td style="font-weight: bold;">Партнер:</td>
                                 <td><span class="responsible-name" id="skill_partner_5">...</span></td>
                             </tr>
                             <tr id="skill_row_6">
-                                <td style="font-weight: bold;">Задание № 6:</td>
+                                <td style="font-weight: bold;">№ 6:</td>
                                 <td><span class="responsible-name" id="skill_name_6">...</span></td>
                                 <td style="font-weight: bold;">Партнер:</td>
                                 <td><span class="responsible-name" id="skill_partner_6">...</span></td>
                             </tr>
                             <tr id="skill_row_7">
-                                <td style="font-weight: bold;">Задание № 7:</td>
+                                <td style="font-weight: bold;">№ 7:</td>
                                 <td><span class="responsible-name" id="skill_name_7">...</span></td>
                                 <td style="font-weight: bold;">Партнер:</td>
                                 <td><span class="responsible-name" id="skill_partner_7">...</span></td>
@@ -332,39 +329,39 @@
                             <span class="prog-bullet">•</span> <span class="prog-title">Председатель:</span> 
                             <span class="responsible-name" id="we_chairman">...</span>
                         </div>
-                        <div class="program-item">
+                        <div class="program-item spacer-by-line">
                             <span class="prog-bullet">•</span> <span class="prog-title">Песня № <span id="we_song_start">...</span> и молитва:</span> 
                             <span class="responsible-name" id="we_prayer_start">...</span>
                         </div>
                         
-                        <div class="program-item weekend-spacer-medium">
+                        <div class="program-item" style="margin-top: 15px;">
                             <span class="prog-bullet">•</span> <span class="prog-title">Публичная речь</span> <span class="prog-time">(30 мин):</span> 
                             <span class="responsible-name" id="we_public_speaker">...</span><br>
                             <span class="speech-topic" id="we_public_topic">...</span>
                         </div>
 
-                        <div class="program-item weekend-spacer-medium">
+                        <div class="program-item spacer-by-line">
                             <span class="prog-bullet">•</span> <span class="prog-title">Песня № <span id="we_song_middle">...</span></span>
                         </div>
 
-                        <div class="program-item weekend-spacer-large">
+                        <div class="program-item" style="margin-top: 15px;">
                             <span class="prog-bullet">•</span> <span class="prog-title">Изучение «Сторожевой Башни»</span> <span class="prog-time">(без зачитывания <span id="we_wt_time">...</span> мин)</span><br>
                             <span style="padding-left: 12px;"><span class="prog-title">Ведущий:</span> <span class="responsible-name" id="we_wt_conductor">...</span></span><br>
                             <span style="padding-left: 12px;"><span class="prog-title">Чтец:</span> <span class="responsible-name" id="we_wt_reader">...</span></span>
                         </div>
 
-                        <div class="program-item weekend-spacer-large">
+                        <div class="program-item spacer-by-line">
                             <span class="prog-bullet">•</span> <span class="prog-title">Заключительная речь</span> <span class="prog-time">(30 мин):</span> 
                             <span class="responsible-name" id="we_rs_name">...</span><br>
                             <span class="speech-topic" id="we_rs_topic">...</span>
                         </div>
 
-                        <div class="program-item weekend-spacer-medium">
+                        <div class="program-item" style="margin-top: 15px;">
                             <span class="prog-bullet">•</span> <span class="prog-title">Песня № <span id="we_song_end">...</span> и молитва:</span> 
                             <span class="responsible-name" id="we_prayer_end">...</span>
                         </div>
 
-                        <div class="program-item weekend-spacer-large" style="padding: 8px; background-color: #f4f8fc; border-left: 3px solid #a3c2e0;" id="we_after_meeting_box">
+                        <div class="program-item" style="margin-top: 24px; padding: 8px; background-color: #f4f8fc; border-left: 3px solid #a3c2e0;" id="we_after_meeting_box">
                             <span class="prog-title" style="color: #1e558c;">Встреча для проповеднического служения (ВПС):</span><br>
                             <span id="we_after_meeting" style="font-weight: bold;">...</span>
                         </div>
@@ -533,10 +530,12 @@
                 document.getElementById('we_after_meeting').innerText = afterMeetingText;
             }
 
-            // 6. Загрузка Расписания Служения
+            // 6. Загрузка Расписания Служения (Скрываем пустые строки + Объединяем одинаковые дни)
             const serviceRows = await fetchSheetData('Служение!A:D');
             const tbody = document.getElementById('service_table_body');
             tbody.innerHTML = '';
+            
+            let validRows = [];
             
             for(let i = 1; i < serviceRows.length; i++) {
                 const row = serviceRows[i];
@@ -545,18 +544,42 @@
                 const desc = row[2] ? row[2].trim() : '';
                 const addr = row[3] ? row[3].trim() : '';
                 
-                if (day === '' && time === '' && desc === '') continue;
+                // Полностью пропускаем пустые незаполненные строчки
+                if (desc === '' && addr === '') continue;
                 
                 const formattedTime = time.length > 5 ? time.substring(0, 5) : time;
+                validRows.push({ day, time: formattedTime, desc, addr });
+            }
 
-                const tr = document.createElement('tr');
-                tr.innerHTML = `
-                    <td><strong>${day}</strong></td>
-                    <td>${formattedTime}</td>
-                    <td><strong>${desc}</strong></td>
-                    <td>${addr}</td>
-                `;
-                tbody.appendChild(tr);
+            // Алгоритм группировки и вывода строк таблицы служения с объединением дней
+            let i = 0;
+            while (i < validRows.length) {
+                let currentDay = validRows[i].day;
+                let count = 1;
+                
+                // Считаем сколько раз подряд повторяется один и тот же день
+                while (i + count < validRows.length && validRows[i + count].day === currentDay) {
+                    count++;
+                }
+
+                for (let j = 0; j < count; j++) {
+                    const tr = document.createElement('tr');
+                    let dayTdHtml = '';
+                    
+                    // Для первой строчки группы создаем ячейку с rowspan, остальные строки дня её не создают
+                    if (j === 0) {
+                        dayTdHtml = `<td rowspan="${count}" style="text-align: center; font-weight: bold; background-color: #fafafa;"><strong>${currentDay}</strong></td>`;
+                    }
+                    
+                    tr.innerHTML = `
+                        ${dayTdHtml}
+                        <td>${validRows[i + j].time}</td>
+                        <td><strong>${validRows[i + j].desc}</strong></td>
+                        <td>${validRows[i + j].addr}</td>
+                    `;
+                    tbody.appendChild(tr);
+                }
+                i += count;
             }
         }
 
