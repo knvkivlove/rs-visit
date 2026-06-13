@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=1024, initial-scale=1.0">
+    <title>График визита районного старейшины</title>
+    <style>
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #fafafa;
+            color: #333333;
+            margin: 0;
+            padding: 20px 0;
+            display: block;
+        }
+
+        /* Контейнер листа А4 */
+        .a4-page {
+            width: 210mm;
+            min-height: 297mm;
+            padding: 15mm 12mm;
+            margin: 0 auto;
+            background-color: #ffffff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+
+        /* Панель управления (Админка) */
+        .admin-panel {
+            width: 210mm;
+            margin: 0 auto 15px auto;
+            background: #eef4f9;
+            border: 1px solid #b9d2e7;
+            padding: 12px;
+            border-radius: 6px;
+            display: table;
+        }
+        .admin-left { display: table-cell; text-align: left; vertical-align: middle; }
+        .admin-right { display: table-cell; text-align: right; vertical-align: middle; }
+        
+        .btn {
+            background-color: #3a86c8;
+            color: white;
+            border: none;
+            padding: 8px 14px;
+            font-size: 10pt;
+            cursor: pointer;
+            border-radius: 4px;
+            font-weight: bold;
+            margin-left: 5px;
+        }
+        .btn:hover { background-color: #2a6fa8; }
+        .btn-admin { background-color: #6c757d; }
+        .btn-save { background-color: #28a745; display: none; }
+
+        .pass-input {
+            padding: 7px;
+            font-size: 10pt;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            width: 100px;
+        }
+
+        /* Стилизация графика */
+        .header-title {
+            text-align: center;
+            font-size: 16pt;
+            font-weight: bold;
+            color: #1e558c;
+            text-transform: uppercase;
+            margin-bottom: 5px;
+            letter-spacing: 0.5px;
+        }
+        .header-subtitle {
+            text-align: center;
+            font-size: 12pt;
+            font-weight: bold;
+            color: #4a76a8;
+            margin-bottom: 20px;
+        }
+
+        /* Сетка основных дней */
+        .days-container {
+            display: table;
+            width: 100%;
+            table-layout: fixed;
+            margin-bottom: 15px;
+        }
+        .day-column {
+            display: table-cell;
+            width: 50%;
+            vertical-align: top;
+        }
+        .day-column:first-child { padding-right: 10px; }
+        .day-column:last-child { padding-left: 10px; }
+
+        /* Блоки разделов */
+        .block-section {
+            border: 1.5px solid #a3c2e0;
+            background-color: #ffffff;
+            margin-bottom: 12px;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        .block-header {
+            background-color: #e3edf7;
+            color: #1e558c;
+            padding: 6px 10px;
+            font-size: 10.5pt;
+            font-weight: bold;
+            border-bottom: 1.5px solid #a3c2e0;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+        .block-body {
+            padding: 8px 10px;
+            font-size: 10pt;
+        }
+
+        /* Элементы программы */
+        .program-row {
+            margin-bottom: 6px;
+            line-height: 1.3;
+            display: table;
+            width: 100%;
+        }
+        .program-row:last-child { margin-bottom: 0; }
+        
+        .prog-time { display: table-cell; width: 45px; font-weight: bold; color: #555; vertical-align: top; }
+        .prog-content { display: table-cell; vertical-align: top; }
+        .prog-title { font-weight: bold; color: #222; }
+        .prog-desc { font-style: italic; color: #555; font-size: 9.5pt; }
+        
+        /* Поля исполнителей */
+        .responsible-tag {
+            font-weight: bold;
+            color: #1e558c;
+        }
+
+        /* Таблица Навыков и Христианской жизни */
+        .inner-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 4px;
+            margin-bottom: 4px;
+        }
+        .inner-table td {
+            padding: 4px 6px;
+            border: 1px solid #d0e1f0;
+            font-size: 9.5pt;
+            vertical-align: middle;
+        }
+        .inner-table tr.hidden-row { display: none; }
+
+        /* Таблица служения (внизу страницы) */
+        .service-section {
+            margin-top: 5px;
+        }
+        .service-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .service-table th {
+            background-color: #e3edf7;
+            color: #1e558c;
+            border: 1.5px solid #a3c2e0;
+            padding: 6px;
+            font-size: 10pt;
+            text-transform: uppercase;
+        }
+        .service-table td {
+            border: 1.5px solid #a3c2e0;
+            padding: 6px;
+            font-size: 10pt;
+            vertical-align: middle;
+        }
+        .service-table tr.hidden-row { display: none; }
+
+        /* Логика редактирования (Красная подсветка) */
+        [contenteditable="false"] {
+            outline: none;
+        }
+        body.admin-mode [data-editable="true"] {
+            background-color: #fff2f2 !important;
+            border-bottom: 1px dashed #ff4d4d;
+            cursor: text;
+            min-width: 30px;
+            display: inline-block;
+        }
+        body.admin-mode td[data-editable="true"] {
+            display: table-cell;
+        }
+        body.admin-mode .hidden-row {
+            display: table-row !important;
+            opacity: 0.6;
+            background-color: #fff9f9;
+        }
+        body.admin-mode div.hidden-row {
+            display: block !important;
+            opacity: 0.6;
+        }
+
+        /* Стили для печати */
+        @media print {
+            body {
+                background-color: #ffffff;
+                padding: 0;
+                margin: 0;
+            }
+            .admin-panel {
+                display: none !important;
+            }
+            .a4-page {
+                box-shadow: none !important;
+                padding: 0 !important;
+                margin: 0 !important;
+                width: 100% !important;
+                min-height: auto !important;
+            }
+            body.admin-mode [data-editable="true"] {
+                background-color: transparent !important;
+                border-bottom: none !important;
+            }
+            /* Подавление вывода пустых строк при печати */
+            .hidden-row {
+                display: none !important;
+            }
+        }
+    </style>
+</head>
+<body class="user-mode">
+
+    <!-- Панель управления администратора -->
+    <div class="admin-panel">
+        <div class="admin-left">
+            <input type="password" id="adminPassword" class="pass-input" placeholder="Пароль">
+            <button class="btn btn-admin" id="authBtn" onclick="toggleAdminMode()">Войти как Админ</button>
+            <button class="btn btn-save" id="saveBtn" onclick="saveDocument()">Сохранить изменения</button>
+        </div>
+        <div class="admin-right">
+            <button class="btn" onclick="window.print()">Печать / PDF</button>
+        </div>
+    </div>
+
+    <!-- Основной бланк А4 -->
+    <div class="a4-page">
+        
+        <!-- Заголовок графика -->
+        <div class="header-title">Программа визита районного старейшины</div>
+        <div class="header-subtitle">
+            в собрание «<span data-editable="true" contenteditable="false" id="cfg_congregation">Саксагань</span>» 
+            (<span data-editable="true" contenteditable="false" id="cfg_city">Кривой Рог</span>) 
+            с <span data-editable="true" contenteditable="false" id="cfg_date_start">11.08.2026</span> 
+            по <span data-editable="true" contenteditable="false" id="cfg_date_end">16.08.2026</span>
+        </div>
+
+        <div class="days-container">
+            
+            <!-- ЛЕВАЯ КОЛОНКА: БУДНИЙ ДЕНЬ -->
+            <div class="day-column">
+                <div class="block-section">
+                    <div class="block-header">
+                        🗓 ВТОРНИК — <span data-editable="true" contenteditable="false" id="cfg_date_weekday">11.08.2026</span> (<span data-editable="true" contenteditable="false" id="cfg_time_weekday">18:30</span>)
+                    </div>
+                    <div class="block-body">
+                        
+                        <div class="program-row">
+                            <div class="prog-time">00:00</div>
+                            <div class="prog-content">
+                                <span class="prog-title">Песня №<span data-editable="true" contenteditable="false" id="wd_song_start">177</span> и молитва</span><br>
+                                <span class="prog-desc">Председатель:</span> <span class="responsible-tag" data-editable="true" contenteditable="false" id="wd_chairman_1">Брат т.</span>
+                            </div>
+                        </div>
+
+                        <div class="program-row">
+                            <div class="prog-time">00:05</div>
+                            <div class="prog-content">
+                                <span class="prog-title">Вступительные слова</span> <span class="prog-desc">(<span data-editable="true" contenteditable="false" id="wd_intro_time">1</span> мин.)</span>
+                            </div>
+                        </div>
+
+                        <div class="program-row">
+                            <div class="prog-time">00:06</div>
+                            <div class="prog-content">
+                                <span class="prog-title">Сокровища из Божьего Слова</span> <span class="prog-desc">(<span data-editable="true" contenteditable="false" id="wd_treasures_time">10</span> мин.)</span><br>
+                                <span class="prog-desc">Докладчик:</span> <span class="responsible-tag" data-editable="true" contenteditable="false" id="wd_treasures_speaker">Брат 1</span>
+                            </div>
+                        </div>
+
+                        <div class="program-row">
+                            <div class="prog-time">00:16</div>
+                            <div class="prog-content">
+                                <span class="prog-title">Духовные жемчужины</span> <span class="prog-desc">(<span data-editable="true" contenteditable="false" id="wd_pearls_time">10</span> мин.)</span><br>
+                                <span class="prog-desc">Докладчик:</span> <span class="responsible-tag" data-editable="true" contenteditable="false" id="wd_pearls_speaker">Брат 2</span>
+                            </div>
+                        </div>
+
+                        <div class="program-row">
+                            <div class="prog-time">00:26</div>
+                            <div class="prog-content">
+                                <span class="prog-title">Чтение Библии</span> <span class="prog-desc">(<span data-editable="true" contenteditable="false" id="wd_reading_time">5</span> мин.)</span><br>
+                                <span class="prog-desc">Ученик:</span> <span class="responsible-tag" data-editable="true" contenteditable="false" id="wd_reading_speaker">Брат 3</span>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Блок Оттачиваем навыки служения -->
+                <div class="block-section">
+                    <div class="block-header">Оттачиваем навыки служения</div>
+                    <div class="block-body" style="padding: 4px;">
+                        <table class="inner-table" id="skillsTable">
+                            <!-- Пункты 4-7. Если исполнитель пуст, строка скрывается для пользователей -->
+                            <tr id="skill_row_4">
+                                <td style="width: 75px; font-weight: bold;">Задание 4</td>
+                                <td><span data-editable="true" contenteditable="false" id="skill_name_4">Таня</span></td>
+                                <td><span data-editable="true" contenteditable="false" id="skill_partner_4">Даша</span></td>
+                            </tr>
+                            <tr id="skill_row_5">
+                                <td style="font-weight: bold;">Задание 5</td>
+                                <td><span data-editable="true" contenteditable="false" id="skill_name_5">Маша</span></td>
+                                <td><span data-editable="true" contenteditable="false" id="skill_partner_5">Глаша</span></td>
+                            </tr>
+                            <tr id="skill_row_6">
+                                <td style="font-weight: bold;">Задание 6</td>
+                                <td><span data-editable="true" contenteditable="false" id="skill_name_6">Света</span></td>
+                                <td><span data-editable="true" contenteditable="false" id="skill_partner_6">Валентина</span></td>
+                            </tr>
+                            <tr id="skill_row_7">
+                                <td style="font-weight: bold;">Задание 7</td>
+                                <td><span data-editable="true" contenteditable="false" id="skill_name_7"></span></td>
+                                <td><span data-editable="true" contenteditable="false" id="skill_partner_7"></span></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Христианская жизнь -->
+                <div class="block-section">
+                    <div class="block-header">Христианская жизнь</div>
+                    <div class="block-body">
+                        <div class="program-row">
+                            <div class="prog-time">00:00</div>
+                            <div class="prog-content">
+                                <span class="prog-title">Песня №<span data-editable="true" contenteditable="false" id="wd_life_song">178</span></span>
+                            </div>
+                        </div>
+                        
+                        <!-- Динамические пункты Христианской жизни -->
+                        <div style="margin-top: 5px; border-top: 1px solid #e0e0e0; padding-top: 5px;" id="life_container">
+                            <div class="program-row" id="life_row_7">
+                                <span class="prog-title" style="color:#444;">Пункт 7:</span> 
+                                <span data-editable="true" contenteditable="false" id="life_title_7">Местные потребности</span> 
+                                (<span data-editable="true" contenteditable="false" id="life_time_7">10</span> мин.)<br>
+                                <span class="prog-desc">Докладчик:</span> <span class="responsible-tag" data-editable="true" contenteditable="false" id="life_speaker_7">Брат 7</span>
+                            </div>
+                            
+                            <div class="program-row" id="life_row_8">
+                                <span class="prog-title" style="color:#444;">Пункт 8:</span> 
+                                <span data-editable="true" contenteditable="false" id="life_title_8"></span> 
+                                (<span data-editable="true" contenteditable="false" id="life_time_8"></span> мин.)<br>
+                                <span class="prog-desc">Докладчик:</span> <span class="responsible-tag" data-editable="true" contenteditable="false" id="life_speaker_8"></span>
+                            </div>
+                        </div>
+
+                        <!-- Заключительная часть будней -->
+                        <div style="margin-top: 8px; border-top: 1px solid #e0e0e0; padding-top: 8px;">
+                            <div class="program-row">
+                                <div class="prog-time">00:00</div>
+                                <div class="prog-content">
+                                    <span class="prog-title">Изучение Библии в собрании / Заключительные слова</span><br>
+                                    <span class="prog-desc">Председатель:</span> <span class="responsible-tag" data-editable="true" contenteditable="false" id="wd_chairman_2">Брат т.</span>
+                                </div>
+                            </div>
+                            <div class="program-row">
+                                <div class="prog-time">00:00</div>
+                                <div class="prog-content">
+                                    <span class="prog-title">Служебная речь районного старейшины</span> <span class="prog-desc">(<span data-editable="true" contenteditable="false" id="wd_rs_speech_time">30</span> мин.)</span><br>
+                                    <span class="prog-desc">Тема:</span> «<span data-editable="true" contenteditable="false" id="wd_rs_speech_topic">Соревнуешься с конями?</span>»<br>
+                                    <span class="prog-desc">Докладчик:</span> <span class="responsible-tag" data-editable="true" contenteditable="false" id="wd_rs_name_1">Районный</span>
+                                </div>
+                            </div>
+                            <div class="program-row">
+                                <div class="prog-time">00:00</div>
+                                <div class="prog-content">
+                                    <span class="prog-title">Песня №<span data-editable="true" contenteditable="false" id="wd_song_end">179</span> и молитва</span><br>
+                                    <span class="prog-desc">Молитва в конце:</span> <span class="responsible-tag" data-editable="true" contenteditable="false" id="wd_prayer_end">Брат 4</span>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- ПРАВАЯ КОЛОНКА: ВЫХОДНОЙ ДЕНЬ -->
+            <div class="day-column">
+                <div class="block-section">
+                    <div class="block-header">
+                        🗓 ВОСКРЕСЕНЬЕ — <span data-editable="true" contenteditable="false" id="cfg_date_weekend">16.08.2026</span> (<span data-editable="true" contenteditable="false" id="cfg_time_weekend">16:00</span>)
+                    </div>
+                    <div class="block-body">
+                        
+                        <div class="program-row">
+                            <div class="prog-time">00:00</div>
+                            <div class="prog-content">
+                                <span class="prog-title">Песня №<span data-editable="true" contenteditable="false" id="we_song_start">100</span> и молитва</span><br>
+                                <span class="prog-desc">Председатель:</span> <span class="responsible-tag" data-editable="true" contenteditable="false" id="we_chairman">Брат 1</span>
+                            </div>
+                        </div>
+
+                        <div class="program-row">
+                            <div class="prog-time">00:05</div>
+                            <div class="prog-content">
+                                <span class="prog-title">Публичная речь районного старейшины</span> <span class="prog-desc">(<span data-editable="true" contenteditable="false" id="we_public_time">30</span> мин.)</span><br>
+                                <span class="prog-desc">Тема:</span> «<span data-editable="true" contenteditable="false" id="we_public_topic">Хорошее начало это крещение</span>»<br>
+                                <span class="prog-desc">Докладчик:</span> <span class="responsible-tag" data-editable="true" contenteditable="false" id="we_public_speaker">Районный</span>
+                            </div>
+                        </div>
+
+                        <div class="program-row">
+                            <div class="prog-time">00:35</div>
+                            <div class="prog-content">
+                                <span class="prog-title">Песня №<span data-editable="true" contenteditable="false" id="we_song_middle">99</span></span>
+                            </div>
+                        </div>
+
+                        <div class="program-row">
+                            <div class="prog-time">00:40</div>
+                            <div class="prog-content">
+                                <span class="prog-title">Изучение Сторожевой Башни</span> <span class="prog-desc">(<span data-editable="true" contenteditable="false" id="we_wt_time">30</span> мин.)</span><br>
+                                <span class="prog-desc">Ведущий:</span> <span class="responsible-tag" data-editable="true" contenteditable="false" id="we_wt_conductor">Брат 4</span><br>
+                                <span class="prog-desc">Чтец:</span> <span class="responsible-tag" data-editable="true" contenteditable="false" id="we_wt_reader">Брат 5</span>
+                            </div>
+                        </div>
+
+                        <div class="program-row">
+                            <div class="prog-time">01:10</div>
+                            <div class="prog-content">
+                                <span class="prog-title">Заключительная речь районного старейшины</span> <span class="prog-desc">(<span data-editable="true" contenteditable="false" id="we_rs_speech_time">30</span> мин.)</span><br>
+                                <span class="prog-desc">Тема:</span> «<span data-editable="true" contenteditable="false" id="we_rs_speech_topic">Наши потребности для пионеров</span>»<br>
+                                <span class="prog-desc">Докладчик:</span> <span class="responsible-tag" data-editable="true" contenteditable="false" id="we_rs_name_2">Районный</span>
+                            </div>
+                        </div>
+
+                        <div class="program-row">
+                            <div class="prog-time">01:40</div>
+                            <div class="prog-content">
+                                <span class="prog-title">Песня №<span data-editable="true" contenteditable="false" id="we_song_end">98</span> и молитва</span><br>
+                                <span class="prog-desc">Молитва в конце:</span> <span class="responsible-tag" data-editable="true" contenteditable="false" id="we_prayer_end">Районный</span>
+                            </div>
+                        </div>
+
+                        <div class="program-row" style="margin-top: 10px; padding: 5px; background: #f9f9f9; border-left: 3px solid #3a86c8;">
+                            <span class="prog-title">После собрания:</span> <span data-editable="true" contenteditable="false" id="we_after_meeting">Встреча со старейшинами и служебными помощниками</span>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Блок Информация -->
+                <div class="block-section">
+                    <div class="block-header">Важная информация</div>
+                    <div class="block-body" style="font-size: 9.5pt; line-height: 1.4;">
+                        • Все встречи проповеднического служения проходят по адресу: <br>
+                        <strong><span data-editable="true" contenteditable="false" id="cfg_address">Зал Царства, ул. Виноградная, 7</span></strong>.<br>
+                        • Изменения в графике могут вноситься администратором в режиме реального времени. Пожалуйста, проверяйте актуальность перед выходом в служение.
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ТАБЛИЦА СЛУЖЕНИЯ НА НЕДЕЛЮ -->
+        <div class="service-section">
+            <table class="service-table" id="serviceTable">
+                <thead>
+                    <tr>
+                        <th style="width: 15%;">День</th>
+                        <th style="width: 15%;">Время</th>
+                        <th style="width: 35%;">Мероприятие / Описание</th>
+                        <th style="width: 35%;">Место проведения / Адрес</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr id="srv_row_1">
+                        <td><strong>Среда</strong></td>
+                        <td><span data-editable="true" contenteditable="false" id="srv_time_1">10:00</span></td>
+                        <td><span data-editable="true" contenteditable="false" id="srv_desc_1">Встреча для проповеднического служения</span></td>
+                        <td><span data-editable="true" contenteditable="false" id="srv_addr_1">Зал Царства, ул. Виноградная, 7</span></td>
+                    </tr>
+                    <tr id="srv_row_2">
+                        <td><strong>Среда</strong></td>
+                        <td><span data-editable="true" contenteditable="false" id="srv_time_2">12:00</span></td>
+                        <td><span data-editable="true" contenteditable="false" id="srv_desc_2">Встреча для проповеднического служения</span></td>
+                        <td><span data-editable="true" contenteditable="false" id="srv_addr_2">Зал Царства, ул. Виноградная, 7</span></td>
+                    </tr>
+                    <tr id="srv_row_3">
+                        <td><strong>Среда</strong></td>
+                        <td><span data-editable="true" contenteditable="false" id="srv_time_3">14:00</span></td>
+                        <td><span data-editable="true" contenteditable="false" id="srv_desc_3">Встреча со всеми пионерами</span></td>
+                        <td><span data-editable="true" contenteditable="false" id="srv_addr_3">Зал Царства</span></td>
+                    </tr>
+                    <tr id="srv_row_4">
+                        <td><strong>Четверг</strong></td>
+                        <td><span data-editable="true" contenteditable="false" id="srv_time_4">10:00</span></td>
+                        <td><span data-editable="true" contenteditable="false" id="srv_desc_4">Встреча для проповеднического служения</span></td>
+                        <td><span data-editable="true" contenteditable="false" id="srv_addr_4">Зал Царства, ул. Виноградная, 7</span></td>
+                    </tr>
+                    <tr id="srv_row_5">
+                        <td><strong>Четверг</strong></td>
+                        <td><span data-editable="true" contenteditable="false" id="srv_time_5">12:00</span></td>
+                        <td><span data-editable="true" contenteditable="false" id="srv_desc_5">Встреча для проповеднического служения</span></td>
+                        <td><span data-editable="true" contenteditable="false" id="srv_addr_5">Зал Царства, ул. Виноградная, 7</span></td>
+                    </tr>
+                    <tr id="srv_row_6">
+                        <td><strong>Четверг</strong></td>
+                        <td><span data-editable="true" contenteditable="false" id="srv_time_6">18:00</span></td>
+                        <td><span data-editable="true" contenteditable="false" id="srv_desc_6">Встреча для проповеднического служения</span></td>
+                        <td><span data-editable="true" contenteditable="false" id="srv_addr_6">Зал Царства, ул. Виноградная, 7</span></td>
+                    </tr>
+                    <tr id="srv_row_7">
+                        <td><strong>Пятница</strong></td>
+                        <td><span data-editable="true" contenteditable="false" id="srv_time_7">10:00</span></td>
+                        <td><span data-editable="true" contenteditable="false" id="srv_desc_7">Встреча для проповеднического служения</span></td>
+                        <td><span data-editable="true" contenteditable="false" id="srv_addr_7">Зал Царства, ул. Виноградная, 7</span></td>
+                    </tr>
+                    <tr id="srv_row_8">
+                        <td><strong>Пятница</strong></td>
+                        <td><span data-editable="true" contenteditable="false" id="srv_time_8">12:00</span></td>
+                        <td><span data-editable="true" contenteditable="false" id="srv_desc_8">Встреча со старейшинами</span></td>
+                        <td><span data-editable="true" contenteditable="false" id="srv_addr_8">Зал Царства</span></td>
+                    </tr>
+                    <tr id="srv_row_9">
+                        <td><strong>Суббота</strong></td>
+                        <td><span data-editable="true" contenteditable="false" id="srv_time_9">10:00</span></td>
+                        <td><span data-editable="true" contenteditable="false" id="srv_desc_9">Встреча для проповеднического служения</span></td>
+                        <td><span data-editable="true" contenteditable="false" id="srv_addr_9">Зал Царства, ул. Виноградная, 7</span></td>
+                    </tr>
+                    <tr id="srv_row_10">
+                        <td><strong>Суббота</strong></td>
+                        <td><span data-editable="true" contenteditable="false" id="srv_time_10"></span></td>
+                        <td><span data-editable="true" contenteditable="false" id="srv_desc_10"></span></td>
+                        <td><span data-editable="true" contenteditable="false" id="srv_addr_10"></span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+    <script>
+        // Функция проверки пустых полей для сокрытия строк от обычных пользователей
+        function updateVisibility() {
+            if (document.body.classList.contains('admin-mode')) {
+                // В режиме админа показываем абсолютно всё для заполнения
+                return;
+            }
+
+            // Проверка таблицы навыков (Задания 4-7)
+            for (let i = 4; i <= 7; i++) {
+                let name = document.getElementById('skill_name_4' ? 'skill_name_' + i : null);
+                let partner = document.getElementById('skill_partner_' + i);
+                let row = document.getElementById('skill_row_' + i);
+                if (name && row) {
+                    if (name.innerText.trim() === "" && partner.innerText.trim() === "") {
+                        row.classList.add('hidden-row');
+                    } else {
+                        row.classList.remove('hidden-row');
+                    }
+                }
+            }
+
+            // Проверка блоков Христианской жизни (Пункты 7-8)
+            for (let i = 7; i <= 8; i++) {
+                let title = document.getElementById('life_title_' + i);
+                let row = document.getElementById('life_row_' + i);
+                if (title && row) {
+                    if (title.innerText.trim() === "") {
+                        row.classList.add('hidden-row');
+                    } else {
+                        row.classList.remove('hidden-row');
+                    }
+                }
+            }
+
+            // Проверка таблицы служения
+            for (let i = 1; i <= 10; i++) {
+                let desc = document.getElementById('srv_desc_' + i);
+                let row = document.getElementById('srv_row_' + i);
+                if (desc && row) {
+                    if (desc.innerText.trim() === "") {
+                        row.classList.add('hidden-row');
+                    } else {
+                        row.classList.remove('hidden-row');
+                    }
+                }
+            }
+        }
+
+        // Переключение режимов: Пользователь / Администратор
+        function toggleAdminMode() {
+            const body = document.body;
+            const passInput = document.getElementById('adminPassword');
+            const authBtn = document.getElementById('authBtn');
+            const saveBtn = document.getElementById('saveBtn');
+            const editables = document.querySelectorAll('[data-editable="true"]');
+
+            if (body.classList.contains('user-mode')) {
+                // Попытка авторизации
+                if (passInput.value === "54321") {
+                    body.classList.remove('user-mode');
+                    body.classList.add('admin-mode');
+                    
+                    editables.forEach(el => el.setAttribute('contenteditable', 'true'));
+                    
+                    passInput.style.display = 'none';
+                    authBtn.innerText = "Выйти из режима редактирования";
+                    authBtn.classList.remove('btn-admin');
+                    authBtn.style.backgroundColor = '#dc3545';
+                    saveBtn.style.display = 'inline-block';
+                    
+                    // Показываем скрытые поля для редактирования
+                    updateVisibility();
+                } else {
+                    alert("Неверный пароль администратора!");
+                }
+            } else {
+                // Выход из режима админа
+                body.classList.remove('admin-mode');
+                body.classList.add('user-mode');
+                
+                editables.forEach(el => el.setAttribute('contenteditable', 'false'));
+                
+                passInput.value = "";
+                passInput.style.display = 'inline-block';
+                authBtn.innerText = "Войти как Админ";
+                authBtn.style.backgroundColor = '';
+                authBtn.classList.add('btn-admin');
+                saveBtn.style.display = 'none';
+                
+                // Скрываем незаполненные поля
+                updateVisibility();
+            }
+        }
+
+        // Сохранение изменений в файл (скачивание обновленной версии HTML бланка)
+        function saveDocument() {
+            // Перед сохранением временно выходим из режима админа, чтобы сбросить состояния по умолчанию
+            toggleAdminMode();
+
+            const htmlToSave = "<!DOCTYPE html>
+<html lang="ru">
+" + document.documentElement.innerHTML + "
+</html>";
+            const blob = new Blob([htmlToSave], { type: "text/html;charset=utf-8" });
+            const link = document.createElement("a");
+            link.href = URL.createObjectURL(blob);
+            link.download = "index.html";
+            link.click();
+            
+            alert("Изменения сохранены! Скачанный файл index.html теперь содержит обновленные данные и готов для загрузки на GitHub.");
+        }
+
+        // Первичный запуск фильтрации пустых строк при загрузке страницы
+        window.onload = function() {
+            updateVisibility();
+        };
+    </script>
+</body>
+</html>
