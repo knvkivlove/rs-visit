@@ -226,7 +226,7 @@
             display: none !important;
         }
 
-        /* ТАБЛИЦА СЛУЖЕНИЯ с исправленным контуром */
+        /* ТАБЛИЦА СЛУЖЕНИЯ с идеальными тонкими внутренними границами */
         .service-section {
             margin-top: 10px;
             width: 100%;
@@ -242,12 +242,13 @@
         .service-table {
             width: 100%;
             border-collapse: collapse;
-            border: 2.5px solid #1e558c; /* Четкий внешний контур для всей таблицы */
+            border: 2.5px solid #1e558c; /* Строгий жирный внешний контур */
         }
         .service-table th {
             background-color: #e3edf7;
             color: #1e558c;
-            border: 2px solid #a3c2e0;
+            border: 1px solid #c2d7eb;
+            border-bottom: 2.5px solid #1e558c; /* Отделяем шапку жирным снизу */
             padding: 6px 8px;
             font-size: 10pt;
             text-transform: uppercase;
@@ -255,26 +256,22 @@
         }
         
         .service-table td {
-            border: 1px solid #c2d7eb;
+            border: 1px solid #c2d7eb; /* Все внутренние линии, включая вертикальные, тонкие */
             padding: 6px 8px;
             font-size: 10pt;
             vertical-align: middle;
         }
 
-        /* Жирные разделители ТОЛЬКО между разными днями */
-        .service-table tr.day-start-row td {
-            border-top: 2.5px solid #1e558c !important;
-        }
-        
-        /* Убираем «рога» на стыке первой колонки */
+        /* Тонкая вертикальная линия справа от дня */
         .service-table td.day-group-cell {
-            border-right: 2.5px solid #1e558c !important;
-            border-top: 1px solid #c2d7eb !important; /* Внутри объединенного дня верхние линии тонкие */
-            border-bottom: 1px solid #c2d7eb !important;
+            border-right: 1px solid #c2d7eb !important; 
+            text-align: center;
+            font-weight: bold;
+            background-color: #fafafa;
         }
-        
-        /* Первой строке внутри дня не нужна жирная внутренняя верхняя граница */
-        .service-table tr.day-start-row td.day-group-cell {
+
+        /* Жирные горизонтальные разделители ТОЛЬКО между блоками дней */
+        .service-table tr.day-start-row td {
             border-top: 2.5px solid #1e558c !important;
         }
 
@@ -333,7 +330,7 @@
                             </div>
                             <div class="program-item">
                                 <div class="prog-label-block"><span class="prog-bullet">•</span> <span class="prog-title">Вступительные слова</span> <span class="prog-time">(<span id="wd_intro_time">...</span> мин.)</span></div>
-                                <div class="responsible-name">—</div>
+                                <div class="responsible-name"></div>
                             </div>
 
                             <div class="section-subheading">Сокровища из Словать Бога</div>
@@ -383,7 +380,7 @@
                             <div class="section-subheading">Христианская жизнь</div>
                             <div class="program-item">
                                 <div class="prog-label-block"><span class="prog-bullet">•</span> <span class="prog-title">Песня № <span id="wd_life_song">...</span></span></div>
-                                <div class="responsible-name">—</div>
+                                <div class="responsible-name"></div>
                             </div>
                             <div class="program-item" id="life_row_1">
                                 <div class="prog-label-block"><span class="prog-bullet">•</span> <span class="prog-title" id="life_title_1">Пункт</span> <span class="prog-time">(<span id="life_time_1">...</span> мин.):</span></div>
@@ -467,7 +464,7 @@
                             
                             <div class="program-item">
                                 <div class="prog-label-block"><span class="prog-bullet">•</span> <span class="prog-title">Песня № <span id="we_song_middle">...</span></span></div>
-                                <div class="responsible-name">—</div>
+                                <div class="responsible-name"></div>
                             </div>
 
                             <div class="program-item" style="display: block;">
@@ -583,15 +580,6 @@
             document.getElementById('wd_treasures_speaker').innerText = wd['РечьСокровища'] || '';
             document.getElementById('wd_pearls_speaker').innerText = wd['ДуховныеЖемчужины'] || '';
             document.getElementById('wd_reading_speaker').innerText = wd['ЧтениеБиблии'] || '';
-            
-            document.getElementById('wd_life_song').innerText = wd['ПесняХристианскаяЖизнь'] || '';
-            document.getElementById('wd_chairman_close').innerText = wd['ЗаключительныеСлова'] || wd['Председатель'] || '';
-            document.getElementById('wd_close_words_time').innerText = wd['ЗаключительныеСловаВремя'] || '3';
-            
-            document.getElementById('wd_rs_name').innerText = wd['СлужебнаяРечь'] || settings['РайонныйСтарейшина'] || '';
-            document.getElementById('wd_rs_topic').innerText = wd['ТемаСлужебнойРечи'] || '';
-            document.getElementById('wd_song_end').innerText = wd['ПесняКонец'] || '';
-            document.getElementById('wd_prayer_end').innerText = wd['МолитваКонец'] || '';
 
             const skillsRows = await fetchSheetData('Навыки!A:D');
             let activeSkillsCount = 0;
@@ -723,7 +711,7 @@
                     
                     let dayTdHtml = '';
                     if (j === 0) {
-                        dayTdHtml = `<td rowspan="${count}" class="day-group-cell" style="text-align: center; font-weight: bold; background-color: #fafafa;"><strong>${currentDay}</strong></td>`;
+                        dayTdHtml = `<td rowspan="${count}" class="day-group-cell">${currentDay}</td>`;
                     }
                     
                     tr.innerHTML = `
