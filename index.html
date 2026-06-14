@@ -127,16 +127,29 @@
             flex-grow: 1;
         }
 
+        /* Распределение пространства ТОЛЬКО между 5 группами выходного дня */
+        .block-body.we-flexible-layout {
+            justify-content: space-between;
+        }
+
+        /* Внутренние блоки-группы для воскресенья (внутри них строки лежат плотно) */
+        .we-group-block {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+        }
+
         /* Элементы расписания */
         .program-item {
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
-            margin-bottom: 8px; /* Унифицированный отступ для плотности списка */
+            margin-bottom: 4px; /* Одинаковый плотный интервал как в будни */
             line-height: 1.25;
             width: 100%;
         }
         .program-item:last-child { margin-bottom: 0; }
+        .we-group-block .program-item:last-child { margin-bottom: 0; }
         
         .prog-label-block {
             flex: 1;
@@ -202,7 +215,7 @@
             text-transform: uppercase; 
             font-size: 9.5pt;
             margin-top: 8px;
-            margin-bottom: 6px;
+            margin-bottom: 4px;
             width: 100%;
             border-bottom: 1px dashed #d0e1f0;
             padding-bottom: 1px;
@@ -312,7 +325,7 @@
                             🗓️ ВТОРНИК<span>встреча в будние дни</span>
                         </div>
                         <div class="block-body" style="justify-content: flex-start; gap: 4px;">
-                            <div class="program-item" style="display: block; text-align: left; margin-bottom: 4px;">
+                            <div class="program-item" style="display: block; text-align: left; margin-bottom: 2px;">
                                 <strong>(Адрес – <span id="cfg_address_wd">...</span>)</strong><br>
                                 ⏱️ Время начала: <strong><span id="cfg_time_weekday">...</span></strong>
                             </div>
@@ -330,7 +343,7 @@
                                 <div class="responsible-name"></div>
                             </div>
 
-                            <div class="section-subheading">Сокровища из Слова Бога</div>
+                            <div class="section-subheading">Сокровища из Слово Бога</div>
                             <div class="program-item">
                                 <div class="prog-label-block"><span class="prog-bullet">•</span> <span class="prog-title">Речь</span> <span class="prog-time">(10 мин.):</span></div>
                                 <div class="responsible-name" id="wd_treasures_speaker">...</div>
@@ -415,76 +428,85 @@
                         <div class="block-header">
                             🗓️ ВОСКРЕСЕНЬЕ<span>встреча в выходные дни</span>
                         </div>
-                        <div class="block-body" style="justify-content: flex-start;">
-                            <div class="program-item" style="display: block; text-align: left; margin-bottom: 6px;">
-                                <strong>(Адрес – <span id="cfg_address_we">...</span>)</strong><br>
-                                ⏱️ Время начала: <strong><span id="cfg_time_weekend">...</span></strong>
-                            </div>
+                        <div class="block-body we-flexible-layout">
                             
-                            <div class="program-item">
-                                <div class="prog-label-block"><span class="prog-bullet">•</span> <span class="prog-title">Председатель:</span></div>
-                                <div class="responsible-name" id="we_chairman">...</div>
-                            </div>
-                            <div class="program-item">
-                                <div class="prog-label-block"><span class="prog-bullet">•</span> <span class="prog-title">Песня № <span id="we_song_start">...</span> и молитва:</span></div>
-                                <div class="responsible-name" id="we_prayer_start">...</div>
-                            </div>
-                            
-                            <div class="program-item" style="display: block;">
-                                <div style="display: flex; justify-content: space-between; width: 100%;">
-                                    <div class="prog-label-block"><span class="prog-bullet">•</span> <span class="prog-title">Публичная речь</span> <span class="prog-time">(30 мин):</span></div>
-                                    <div class="responsible-name" id="we_public_speaker">...</div>
+                            <div class="we-group-block">
+                                <div class="program-item" style="display: block; text-align: left; margin-bottom: 4px;">
+                                    <strong>(Адрес – <span id="cfg_address_we">...</span>)</strong><br>
+                                    ⏱️ Время начала: <strong><span id="cfg_time_weekend">...</span></strong>
                                 </div>
-                                <div class="speech-topic-container">
-                                    <span class="speech-topic" id="we_public_topic">...</span>
+                                <div class="program-item">
+                                    <div class="prog-label-block"><span class="prog-bullet">•</span> <span class="prog-title">Председатель:</span></div>
+                                    <div class="responsible-name" id="we_chairman">...</div>
                                 </div>
-                            </div>
-
-                            <div class="program-item" style="display: block;">
-                                <div style="width: 100%; margin-bottom: 4px;">
-                                    <span class="prog-bullet">•</span> <span class="prog-title">Изучение «Сторожевой Башни»</span>
-                                    <span class="prog-time" style="display: block; padding-left: 12px; margin-top: 1px;">(без зачитывания <span id="we_wt_time">...</span> мин)</span>
-                                </div>
-                                <div style="padding-left: 12px; width: 100%;">
-                                    <div style="display: flex; justify-content: space-between; margin-bottom: 3px;">
-                                        <span style="font-size: 10pt; font-weight: bold;">Ведущий:</span>
-                                        <span class="responsible-name" id="we_wt_conductor">...</span>
-                                    </div>
-                                    <div style="display: flex; justify-content: space-between;">
-                                        <span style="font-size: 10pt; font-weight: bold;">Чтец:</span>
-                                        <span class="responsible-name" id="we_wt_reader">...</span>
-                                    </div>
+                                <div class="program-item">
+                                    <div class="prog-label-block"><span class="prog-bullet">•</span> <span class="prog-title">Песня № <span id="we_song_start">...</span> и молитва:</span></div>
+                                    <div class="responsible-name" id="we_prayer_start">...</div>
                                 </div>
                             </div>
                             
-                            <div class="program-item">
-                                <div class="prog-label-block"><span class="prog-bullet">•</span> <span class="prog-title">Песня № <span id="we_song_middle">...</span></span></div>
-                                <div class="responsible-name"></div>
-                            </div>
-
-                            <div class="program-item" style="display: block;">
-                                <div style="display: flex; justify-content: space-between; width: 100%;">
-                                    <div class="prog-label-block"><span class="prog-bullet">•</span> <span class="prog-title">Заключительная речь</span> <span class="prog-time">(30 мин):</span></div>
-                                    <div class="responsible-name" id="we_rs_name">...</div>
-                                </div>
-                                <div class="speech-topic-container">
-                                    <span class="speech-topic" id="we_rs_topic">...</span>
-                                </div>
-                            </div>
-
-                            <div class="program-item">
-                                <div class="prog-label-block"><span class="prog-bullet">•</span> <span class="prog-title">Песня № <span id="we_song_end">...</span> и молитва:</span></div>
-                                <div class="responsible-name" id="we_prayer_end">...</div>
-                            </div>
-
-                            <div class="program-item" style="padding: 8px 10px; background-color: #f4f8fc; border-left: 3px solid #a3c2e0; display: block; width: 100%; margin-top: 4px;" id="we_after_meeting_box">
-                                <div style="display: flex; justify-content: space-between; align-items: flex-start; width: 100%;">
-                                    <div class="prog-label-block">
-                                        <span class="prog-title" style="color: #1e558c; font-size: 10pt; display: block; line-height: 1.3;">Встреча для проповеднического служения:</span>
+                            <div class="we-group-block">
+                                <div class="program-item" style="display: block;">
+                                    <div style="display: flex; justify-content: space-between; width: 100%;">
+                                        <div class="prog-label-block"><span class="prog-bullet">•</span> <span class="prog-title">Публичная речь</span> <span class="prog-time">(30 мин):</span></div>
+                                        <div class="responsible-name" id="we_public_speaker">...</div>
                                     </div>
-                                    <div class="responsible-name" id="we_after_meeting">...</div>
+                                    <div class="speech-topic-container">
+                                        <span class="speech-topic" id="we_public_topic">...</span>
+                                    </div>
                                 </div>
                             </div>
+
+                            <div class="we-group-block">
+                                <div class="program-item" style="display: block; margin-bottom: 4px;">
+                                    <div style="width: 100%;">
+                                        <span class="prog-bullet">•</span> <span class="prog-title">Изучение «Сторожевой Башни»</span>
+                                        <span class="prog-time" style="display: block; padding-left: 12px; margin-top: 1px;">(без зачитывания <span id="we_wt_time">...</span> мин)</span>
+                                    </div>
+                                    <div style="padding-left: 12px; width: 100%; margin-top: 4px;">
+                                        <div style="display: flex; justify-content: space-between; margin-bottom: 3px;">
+                                            <span style="font-size: 10pt; font-weight: bold;">Ведущий:</span>
+                                            <span class="responsible-name" id="we_wt_conductor">...</span>
+                                        </div>
+                                        <div style="display: flex; justify-content: space-between;">
+                                            <span style="font-size: 10pt; font-weight: bold;">Чтец:</span>
+                                            <span class="responsible-name" id="we_wt_reader">...</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="program-item">
+                                    <div class="prog-label-block"><span class="prog-bullet">•</span> <span class="prog-title">Песня № <span id="we_song_middle">...</span></span></div>
+                                    <div class="responsible-name"></div>
+                                </div>
+                            </div>
+
+                            <div class="we-group-block">
+                                <div class="program-item" style="display: block; margin-bottom: 4px;">
+                                    <div style="display: flex; justify-content: space-between; width: 100%;">
+                                        <div class="prog-label-block"><span class="prog-bullet">•</span> <span class="prog-title">Заключительная речь</span> <span class="prog-time">(30 мин):</span></div>
+                                        <div class="responsible-name" id="we_rs_name">...</div>
+                                    </div>
+                                    <div class="speech-topic-container">
+                                        <span class="speech-topic" id="we_rs_topic">...</span>
+                                    </div>
+                                </div>
+                                <div class="program-item">
+                                    <div class="prog-label-block"><span class="prog-bullet">•</span> <span class="prog-title">Песня № <span id="we_song_end">...</span> и молитва:</span></div>
+                                    <div class="responsible-name" id="we_prayer_end">...</div>
+                                </div>
+                            </div>
+
+                            <div class="we-group-block" id="we_after_meeting_box">
+                                <div class="program-item" style="padding: 8px 10px; background-color: #f4f8fc; border-left: 3px solid #a3c2e0; display: block; width: 100%; margin-bottom: 0;">
+                                    <div style="display: flex; justify-content: space-between; align-items: flex-start; width: 100%;">
+                                        <div class="prog-label-block">
+                                            <span class="prog-title" style="color: #1e558c; font-size: 10pt; display: block; line-height: 1.3;">Встреча для проповеднического служения:</span>
+                                        </div>
+                                        <div class="responsible-name" id="we_after_meeting">...</div>
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                 </div>
