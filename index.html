@@ -419,7 +419,7 @@
                         <div class="block-body">
                             <div>
                                 <div class="program-item" style="display: block; text-align: left; margin-bottom: 6px;">
-                                    <strong>(Адрес – <span id="cfg_address_we">...</span>)</strong><br>
+                                    <strong>(Ад-- – <span id="cfg_address_we">...</span>)</strong><br>
                                     ⏱️ Время начала: <strong><span id="cfg_time_weekend">...</span></strong>
                                 </div>
                                 
@@ -581,7 +581,10 @@
             document.getElementById('wd_pearls_speaker').innerText = wd['ДуховныеЖемчужины'] || '';
             document.getElementById('wd_reading_speaker').innerText = wd['ЧтениеБиблии'] || '';
             document.getElementById('wd_life_song').innerText = wd['ПесняЖизнь'] || '';
+            
+            // Загрузка ответственного за Заключительные слова и времени
             document.getElementById('wd_chairman_close').innerText = wd['ЗаключительныеСлова'] || wd['Председатель'] || '';
+            document.getElementById('wd_close_words_time').innerText = wd['ЗаключительныеСловаВремя'] || '3';
             
             // Загрузка Служебной речи (ФИО и Тема)
             document.getElementById('wd_rs_name').innerText = wd['СлужебнаяРечь'] || settings['РайонныйСтарейшина'] || '';
