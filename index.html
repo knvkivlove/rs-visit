@@ -117,7 +117,7 @@
             margin-top: 1px;
         }
         
-        /* Тело блока — сжатые отступы */
+        /* Тело блока */
         .block-body {
             padding: 8px 12px;
             font-size: 10.5pt;
@@ -153,7 +153,7 @@
             font-weight: bold;
         }
         
-        /* Жесткий запрет переноса минут по частям */
+        /* Запрет переноса минут */
         .prog-time {
             color: #555555;
             font-style: italic;
@@ -178,7 +178,7 @@
             max-width: 100%;
         }
 
-        /* ТЕМЫ РЕЧЕЙ ПО ЦЕНТРУ */
+        /* Темы речей по центру */
         .speech-topic-container {
             display: block;
             width: 100%;
@@ -209,7 +209,7 @@
             padding-bottom: 1px;
         }
 
-        /* Внутренние таблицы (Навыки служения) */
+        /* Внутренние таблицы */
         .inner-table {
             width: 100%;
             border-collapse: collapse;
@@ -226,7 +226,7 @@
             display: none !important;
         }
 
-        /* ТАБЛИЦА СЛУЖЕНИЯ (Полное жирное обрамление по контуру) */
+        /* ТАБЛИЦА СЛУЖЕНИЯ с исправленным контуром */
         .service-section {
             margin-top: 10px;
             width: 100%;
@@ -242,9 +242,7 @@
         .service-table {
             width: 100%;
             border-collapse: collapse;
-            border-left: 2.5px solid #1e558c;
-            border-right: 2.5px solid #1e558c;
-            border-bottom: 2.5px solid #1e558c;
+            border: 2.5px solid #1e558c; /* Четкий внешний контур для всей таблицы */
         }
         .service-table th {
             background-color: #e3edf7;
@@ -263,15 +261,21 @@
             vertical-align: middle;
         }
 
-        /* Жирные разделители между днями для ВСЕХ ячеек строки */
+        /* Жирные разделители ТОЛЬКО между разными днями */
         .service-table tr.day-start-row td {
             border-top: 2.5px solid #1e558c !important;
         }
-        .service-table tr.day-end-row td {
-            border-bottom: 2.5px solid #1e558c !important;
-        }
+        
+        /* Убираем «рога» на стыке первой колонки */
         .service-table td.day-group-cell {
             border-right: 2.5px solid #1e558c !important;
+            border-top: 1px solid #c2d7eb !important; /* Внутри объединенного дня верхние линии тонкие */
+            border-bottom: 1px solid #c2d7eb !important;
+        }
+        
+        /* Первой строке внутри дня не нужна жирная внутренняя верхняя граница */
+        .service-table tr.day-start-row td.day-group-cell {
+            border-top: 2.5px solid #1e558c !important;
         }
 
         @media screen and (max-width: 210mm) {
@@ -332,7 +336,7 @@
                                 <div class="responsible-name">—</div>
                             </div>
 
-                            <div class="section-subheading">Сокровища из Слова Бога</div>
+                            <div class="section-subheading">Сокровища из Словать Бога</div>
                             <div class="program-item">
                                 <div class="prog-label-block"><span class="prog-bullet">•</span> <span class="prog-title">Речь</span> <span class="prog-time">(10 мин.):</span></div>
                                 <div class="responsible-name" id="wd_treasures_speaker">...</div>
@@ -715,9 +719,6 @@
                     
                     if (j === 0) {
                         tr.classList.add('day-start-row');
-                    }
-                    if (j === count - 1) {
-                        tr.classList.add('day-end-row');
                     }
                     
                     let dayTdHtml = '';
