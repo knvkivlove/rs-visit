@@ -226,7 +226,7 @@
             display: none !important;
         }
 
-        /* ТАБЛИЦА СЛУЖЕНИЯ с идеальными тонкими внутренними границами */
+        /* ТАБЛИЦА СЛУЖЕНИЯ */
         .service-section {
             margin-top: 10px;
             width: 100%;
@@ -242,13 +242,13 @@
         .service-table {
             width: 100%;
             border-collapse: collapse;
-            border: 2.5px solid #1e558c; /* Строгий жирный внешний контур */
+            border: 2.5px solid #1e558c;
         }
         .service-table th {
             background-color: #e3edf7;
             color: #1e558c;
             border: 1px solid #c2d7eb;
-            border-bottom: 2.5px solid #1e558c; /* Отделяем шапку жирным снизу */
+            border-bottom: 2.5px solid #1e558c;
             padding: 6px 8px;
             font-size: 10pt;
             text-transform: uppercase;
@@ -256,13 +256,12 @@
         }
         
         .service-table td {
-            border: 1px solid #c2d7eb; /* Все внутренние линии, включая вертикальные, тонкие */
+            border: 1px solid #c2d7eb;
             padding: 6px 8px;
             font-size: 10pt;
             vertical-align: middle;
         }
 
-        /* Тонкая вертикальная линия справа от дня */
         .service-table td.day-group-cell {
             border-right: 1px solid #c2d7eb !important; 
             text-align: center;
@@ -270,7 +269,6 @@
             background-color: #fafafa;
         }
 
-        /* Жирные горизонтальные разделители ТОЛЬКО между блоками дней */
         .service-table tr.day-start-row td {
             border-top: 2.5px solid #1e558c !important;
         }
@@ -555,6 +553,7 @@
         }
 
         async function initDashboard() {
+            // 1. ЗАГРУЗКА НАСТРОЕК
             const settingsRows = await fetchSheetData('Настройки!A:B');
             const settings = convertToMap(settingsRows);
             
@@ -568,6 +567,7 @@
             document.getElementById('cfg_address_wd').innerText = currentAddress;
             document.getElementById('cfg_address_we').innerText = currentAddress;
 
+            // 2. ЗАГРУЗКА ДАННЫХ ВТОРНИКА
             const wdRows = await fetchSheetData('БуднийДень!A:B');
             const wd = convertToMap(wdRows);
             
@@ -580,7 +580,17 @@
             document.getElementById('wd_treasures_speaker').innerText = wd['РечьСокровища'] || '';
             document.getElementById('wd_pearls_speaker').innerText = wd['ДуховныеЖемчужины'] || '';
             document.getElementById('wd_reading_speaker').innerText = wd['ЧтениеБиблии'] || '';
+            document.getElementById('wd_life_song').innerText = wd['ПесняЖизнь'] || '';
+            document.getElementById('wd_chairman_close').innerText = wd['ЗаключительныеСлова'] || wd['Председатель'] || '';
+            
+            // Загрузка Служебной речи (ФИО и Тема)
+            document.getElementById('wd_rs_name').innerText = wd['СлужебнаяРечь'] || settings['РайонныйСтарейшина'] || '';
+            document.getElementById('wd_rs_topic').innerText = wd['ТемаСлужебнойРечи'] || '';
+            
+            document.getElementById('wd_song_end').innerText = wd['ПесняКонец'] || '';
+            document.getElementById('wd_prayer_end').innerText = wd['МолитваКонец'] || '';
 
+            // 3. ЗАГРУЗКА НАВЫКОВ (ТАБЛИЦА СТУДЕНТОВ)
             const skillsRows = await fetchSheetData('Навыки!A:D');
             let activeSkillsCount = 0;
             
@@ -611,6 +621,7 @@
 
             let currentLifeNumber = 4 + activeSkillsCount;
 
+            // 4. ЗАГРУЗКА ПУНКТОВ ХРИСТИАНСКОЙ ЖИЗНИ
             const lifeRows = await fetchSheetData('ХристианскаяЖизнь!A:C');
             let itemIndex = 1;
             
@@ -640,6 +651,7 @@
                 itemIndex++;
             }
 
+            // 5. ЗАГРУЗКА ДАННЫХ ВОСКРЕСЕНЬЯ
             const weRows = await fetchSheetData('ВыходнойДень!A:B');
             const we = convertToMap(weRows);
             
@@ -675,6 +687,7 @@
                 document.getElementById('we_after_meeting').innerText = afterMeetingText;
             }
 
+            // 6. СБОРКА НИЖНЕЙ ТАБЛИЦЫ СЛУЖЕНИЯ
             const serviceRows = await fetchSheetData('Служение!A:D');
             const tbody = document.getElementById('service_table_body');
             tbody.innerHTML = '';
@@ -687,7 +700,7 @@
                 const desc = row[2] ? row[2].trim() : '';
                 const addr = row[3] ? row[3].trim() : '';
                 
-                if (desc === '' && addr === '') continue;
+                if (time === '' && desc === '' && addr === '') continue;
                 
                 const formattedTime = time.length > 5 ? time.substring(0, 5) : time;
                 validRows.push({ day, time: formattedTime, desc, addr });
