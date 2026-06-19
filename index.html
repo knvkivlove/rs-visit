@@ -203,7 +203,7 @@
             font-weight: bold;
             color: #1e558c;
             text-transform: uppercase;
-            font-size: 15pt !important; /* Принудительно ставим этот размер */
+            font-size: 11.5pt;
             letter-spacing: 0.3px;
             line-height: 1.25;
         }
@@ -525,7 +525,7 @@
                         </tr>
                     </thead>
                     <tbody id="service_table_body">
-                    </tbody>
+                        </tbody>
                 </table>
             </div>
 
@@ -533,12 +533,8 @@
     </div>
 
     <script>
-        /* ========================================================================= */
-        /* ПРИМЕЧАНИЕ: ВСТАВЬ СВОЙ API-КЛЮЧ И ID ТАБЛИЦЫ НИЖЕ ВМЕСТО ЭТИХ СТРОК    */
-        /* ========================================================================= */
-        const API_KEY = 'AIzaSyDwi1V8A5wvGwXCKtM_QmJ0eqTNG1hIoEg'; 
-        const SPREADSHEET_ID = '1zKuNfeFfe3SwHuXriJJYnB7mN76cnFyhgcrZpoua05E';
-        /* ========================================================================= */
+        const API_KEY = 'AIzaSyDwi1V8A5wvGwXCKtM_QmJ0eqTNG1hIoEg';
+        const SPREADSHEET_ID = '11WbnmbvSTtxsaszbzXIgKeQT795n3Tlx7kwvGpSQU18';
 
         const baseUrl = `https://sheets.googleapis.com/v4/spreadsheets/${SPREADSHEET_ID}/values`;
 
@@ -672,20 +668,104 @@
                         if (speakerEl) speakerEl.innerText = speaker;
                         
                         currentLifeNumber++;
-                        itemIndex++;
                     }
                 }
+                itemIndex++;
             }
 
-            // В самом конце загрузки данных принудительно рассчитываем правильный зум
+            // 5. ЗАГРУЗКА ДАННЫХ ВОСКРЕСЕНЬЯ
+            const weRows = await fetchSheetData('ВыходнойДень!A:B');
+            const we = convertToMap(weRows);
+            
+            document.getElementById('cfg_time_weekend').innerText = (we['ВремяВыходной'] || settings['ВремяВыходной'] || '16:00').substring(0, 5);
+            document.getElementById('we_chairman').innerText = we['Председатель'] || '';
+            document.getElementById('we_prayer_start').innerText = we['МолитваНачало'] || we['Председатель'] || '';
+            document.getElementById('we_song_start').innerText = we['ПесняНачало'] || '';
+            
+            document.getElementById('we_public_speaker').innerText = we['ПубличнаяРечь'] || settings['РайонныйСтарейшина'] || '';
+            document.getElementById('we_public_topic').innerText = we['ТемаПубличнойРечи'] || '';
+            document.getElementById('we_song_middle').innerText = we['ПесняПередСБ'] || '';
+            
+            document.getElementById('we_wt_time').innerText = we['ИзучениеСБВремя'] || '30';
+            document.getElementById('we_wt_conductor').innerText = we['ВедущийСБ'] || '';
+            document.getElementById('we_wt_reader').innerText = we['ЧтецСБ'] || '';
+            
+            const rsWeekendName = we['ЗаключительнаяРечь'] || settings['РайонныйСтарейшина'] || '';
+            const rsWeekendTopic = we['ТемаЗаключительнойРечи'] || '';
+            
+            const weRsNameElements = document.querySelectorAll('[id="we_rs_name"]');
+            weRsNameElements.forEach(el => el.innerText = rsWeekendName);
+            
+            const weRsTopicElements = document.querySelectorAll('[id="we_rs_topic"]');
+            weRsTopicElements.forEach(el => el.innerText = rsWeekendTopic);
+            
+            document.getElementById('we_song_end').innerText = we['ПесняКонец'] || '';
+            document.getElementById('we_prayer_end').innerText = we['МолитваКонец'] || '';
+            
+            const afterMeetingText = we['ПослеСобрания'] || '';
+            if (afterMeetingText === '') {
+                document.getElementById('we_after_meeting_box').classList.add('hidden-element');
+            } else {
+                document.getElementById('we_after_meeting').innerText = afterMeetingText;
+            }
+
+            // 6. СБОРКА НИЖНЕЙ ТАБЛИЦЫ СЛУЖЕНИЯ
+            const serviceRows = await fetchSheetData('Служение!A:D');
+            const tbody = document.getElementById('service_table_body');
+            tbody.innerHTML = '';
+            
+            let validRows = [];
+            for(let i = 1; i < serviceRows.length; i++) {
+                const row = serviceRows[i];
+                const day = row[0] ? row[0].trim() : '';
+                const time = row[1] ? row[1].trim() : '';
+                const desc = row[2] ? row[2].trim() : '';
+                const addr = row[3] ? row[3].trim() : '';
+                
+                if (time === '' && desc === '' && addr === '') continue;
+                
+                const formattedTime = time.length > 5 ? time.substring(0, 5) : time;
+                validRows.push({ day, time: formattedTime, desc, addr });
+            }
+
+            let i = 0;
+            while (i < validRows.length) {
+                let currentDay = validRows[i].day;
+                let count = 1;
+                
+                while (i + count < validRows.length && validRows[i + count].day === currentDay) {
+                    count++;
+                }
+
+                for (let j = 0; j < count; j++) {
+                    const tr = document.createElement('tr');
+                    
+                    if (j === 0) {
+                        tr.classList.add('day-start-row');
+                    }
+                    
+                    let dayTdHtml = '';
+                    if (j === 0) {
+                        dayTdHtml = `<td rowspan="${count}" class="day-group-cell">${currentDay}</td>`;
+                    }
+                    
+                    tr.innerHTML = `
+                        ${dayTdHtml}
+                        <td>${validRows[i + j].time}</td>
+                        <td><strong>${validRows[i + j].desc}</strong></td>
+                        <td>${validRows[i + j].addr}</td>
+                    `;
+                    tbody.appendChild(tr);
+                }
+                i += count;
+            }
+            
             adjustMobileScale();
         }
 
-        // Вызов функции при событии полной готовности DOM (страница открылась)
-        document.addEventListener('DOMContentLoaded', () => {
+        window.onload = function() {
             initDashboard();
-            adjustMobileScale(); // Мгновенный пересчет при старте, пока данные еще в пути
-        });
+        };
     </script>
 </body>
 </html>
