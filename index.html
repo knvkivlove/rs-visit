@@ -599,7 +599,9 @@
             document.getElementById('wd_treasures_speaker').innerText = wd['РечьСокровища'] || '';
             document.getElementById('wd_pearls_speaker').innerText = wd['ДуховныеЖемчужины'] || '';
             document.getElementById('wd_reading_speaker').innerText = wd['ЧтениеБиблии'] || '';
-            document.getElementById('wd_life_song').innerText = wd['ПесняЖизнь'] || '';
+            
+            // Исправлен ключ для подтягивания песни Христианской жизни
+            document.getElementById('wd_life_song').innerText = wd['ПесняХристианскаяЖизнь'] || '';
             
             // Загрузка ответственного за Заключительные слова и времени
             document.getElementById('wd_chairman_close').innerText = wd['ЗаключительныеСлова'] || wd['Председатель'] || '';
